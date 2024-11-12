@@ -4,7 +4,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 10px 20px;
-  background-color: rgba(255, 255, 255, 0.8); /* Transparent background */
+  background: linear-gradient(90deg, #ff7e5f, #feb47b);
   border-bottom: 1px solid rgba(0, 0, 0, 0.2); /* Bottom border */
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
   position: fixed;

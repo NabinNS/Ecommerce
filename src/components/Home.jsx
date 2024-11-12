@@ -5,6 +5,9 @@ import wallpaper1 from "../assets/images/wallpaper 1.jpg";
 import wallpaper2 from "../assets/images/wallpaper 2.jpg";
 import wallpaper3 from "../assets/images/wallpaper 3.jpg";
 import wallpaper4 from "../assets/images/wallpaper 4.jpg";
+import TopPick from "./TopPick.jsx";
+import Footer from "./Footer.jsx";
+
 function Home() {
   return (
     <>
@@ -24,6 +27,8 @@ function Home() {
         </div>
       </div>
       <Brand />
+      <TopPick />
+      <Footer />
     </>
   );
 }
