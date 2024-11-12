@@ -1,0 +1,67 @@
+*::-webkit-scrollbar {
+  display: none;
+}
+
+.full-screen-container {
+  position: relative;
+  width: 100vw;
+  height: calc(100vh - 60px); /* 60px is navbar height */
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Full-screen background image */
+.full-screen-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: calc(100vh - 60px);
+  object-fit: cover; /* Ensures the image fills the container */
+  z-index: -1;
+}
+
+.description-box {
+  position: absolute;
+  top: 40%; /* Positions the text wrapper 40% from the top */
+  left: clamp(10px, 5vw, 80px); /* Adjusts left spacing based on screen size */
+  z-index: 1;
+  width: clamp(200px, 50vw, 500px); /* Width adjusts with screen size */
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent background */
+  color: #ddd; /* Light font color */
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.description-box h1 {
+  font-size: clamp(1.5rem, 2.5vw, 2rem); /* Adjusts font size responsively */
+  margin-bottom: 10px;
+  margin-left: 20px;
+}
+
+.description-box p {
+  font-size: clamp(0.9rem, 2vw, 1rem); /* Adjusts paragraph font size */
+  margin-bottom: 20px;
+  line-height: 1.5;
+  margin-left: 20px;
+}
+
+/* Button styling */
+.action-button {
+  background-color: #ff3e3e;
+  color: #fff;
+  border: none;
+  padding: clamp(8px, 2vw, 10px) clamp(15px, 3vw, 20px); /* Responsive padding */
+  font-size: clamp(0.9rem, 2vw, 1rem); /* Adjusts button font size */
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-left: 20px;
+}
+
+.action-button:hover {
+  background-color: #e12f2f;
+}

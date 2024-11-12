@@ -1,0 +1,67 @@
+/* Navbar container */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  background-color: rgba(255, 255, 255, 0.8); /* Transparent background */
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2); /* Bottom border */
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+  height: 60px;
+}
+
+/* Left section for website name */
+.navbar-left h1 {
+  font-size: 1.5rem;
+  color: #333;
+  margin: 0;
+}
+
+/* Center section for search bar */
+.navbar-center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.navbar-center input[type="text"] {
+  width: 60%;
+  padding: 8px 12px;
+  font-size: 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  outline: none;
+}
+
+/* Right section for login icon */
+.navbar-right .login-icon {
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .navbar-center input[type="text"] {
+    width: 70%; /* Makes the search bar slightly larger on small screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar-left h1 {
+    font-size: 1.2rem;
+  }
+
+  .navbar-center input[type="text"] {
+    width: 80%; /* Increases width of search bar for better usability on mobile */
+  }
+
+  .navbar-right .login-icon {
+    width: 25px;
+    height: 25px;
+  }
+}
