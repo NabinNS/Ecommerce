@@ -1,11 +1,12 @@
+import { Link } from "react-router-dom";
 function BrandLogos({ logo, altText }) {
   return (
     <>
-      <a href="">
+      <Link to={`/productlist/exide`}>
         <div className="brand-card">
           <img src={logo} alt={altText} />
         </div>
-      </a>
+      </Link>
     </>
   );
 }

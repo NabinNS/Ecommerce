@@ -1,5 +1,5 @@
 import BrandLogos from "./BrandLogos";
-import "./Brand.css";
+import "./css/Brand.css";
 
 import Exide from "../assets/logo/exide.png";
 import Amaron from "../assets/logo/amaron.png";
@@ -7,10 +7,10 @@ import Powerzone from "../assets/logo/powerzone.png";
 import Globat from "../assets/logo/globat.png";
 
 const brandData = [
-  { logo: Exide, altText: "Exide Logo" },
-  { logo: Amaron, altText: "Amaron Logo" },
-  { logo: Powerzone, altText: "Powerzone Logo" },
-  { logo: Globat, altText: "Globat Logo" },
+  { logo: Exide, altText: "Exide" },
+  { logo: Amaron, altText: "Amaron" },
+  { logo: Powerzone, altText: "Powerzone" },
+  { logo: Globat, altText: "Globat" },
 ];
 function Brand() {
   return (

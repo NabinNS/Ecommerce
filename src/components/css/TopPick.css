@@ -1,0 +1,54 @@
+/* TopPick.css */
+
+.top-picks-section {
+  text-align: center;
+  padding: 40px 20px;
+  background-color: #f8f9fa; /* Light background */
+}
+
+.section-title {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.picks-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap; /* Makes it responsive */
+}
+
+.pick-card {
+  background: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  width: 250px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.pick-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.pick-icon {
+  font-size: 2.5rem;
+  color: #f03203; /* Accent color */
+  margin-bottom: 15px;
+}
+
+.pick-card h3 {
+  font-size: 1.2rem;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.pick-card p {
+  font-size: 0.9rem;
+  color: #555;
+  margin: 0;
+}

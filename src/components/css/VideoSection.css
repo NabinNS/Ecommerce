@@ -1,0 +1,98 @@
+.video-info-section {
+  display: flex;
+  flex-direction: row; /* Default layout with video on the left and info on the right */
+  align-items: center;
+  justify-content: space-between;
+  padding: 40px 20px;
+  gap: 20px;
+  background-color: #f9f9f9; /* Matches the overall site theme */
+  box-shadow: 0px 8px 10px rgba(0, 0, 0, 0.1);
+  border-top: 2px solid rgba(0, 0, 0, 0.1);
+}
+
+.video-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.video-player {
+  width: 100%;
+  max-width: 700px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.info-container {
+  flex: 1;
+  padding: 0 20px;
+  text-align: left;
+}
+
+.info-title {
+  font-size: 2rem; /* Slightly larger for emphasis */
+  color: #333;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  border-bottom: 2px solid #c62c2f; /* Accent underline */
+  display: inline-block;
+  padding-bottom: 5px;
+}
+
+.info-text {
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 20px;
+  line-height: 1.8; /* Increased line spacing for better readability */
+}
+
+.info-list {
+  list-style: none; /* Remove default bullet points */
+  padding: 0; /* Remove padding */
+}
+
+.info-list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+  font-size: 1rem;
+  color: #333;
+  background-color: #f1f1f1; /* Subtle background for each list item */
+  padding: 10px 15px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  transition: all 0.3s ease;
+  cursor: pointer; /* Indicate interactivity */
+}
+
+.info-list li:hover {
+  transform: translateX(5px); /* Slight movement on hover */
+  background-color: #ffe5d1; /* Highlighted background on hover */
+  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.15); /* Stronger shadow on hover */
+}
+
+.info-list li::before {
+  content: "✔️"; /* Checkmark icon before each list item */
+  font-size: 1.2rem;
+  color: #c62c2f; /* Matches the accent color */
+  flex-shrink: 0; /* Ensures consistent size of icon */
+}
+
+/* Media Query for Smaller Screens */
+@media (max-width: 768px) {
+  .video-info-section {
+    flex-direction: column; /* Stack video on top and info below */
+    text-align: center; /* Center the text for better alignment */
+  }
+
+  .info-container {
+    padding: 20px 0; /* Add padding around the info section */
+  }
+
+  .video-player {
+    max-width: 100%; /* Ensure the video takes full width */
+    margin-bottom: 20px; /* Add space below the video */
+  }
+}

@@ -1,5 +1,5 @@
 import { FaUserCircle } from "react-icons/fa"; // for profile icon
-import "./Navbar.css";
+import "./css/Navbar.css";
 function Navbar() {
   return (
     <div className="navbar">
