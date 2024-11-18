@@ -6,8 +6,8 @@ import wallpaper2 from "../assets/images/wallpaper 2.jpg";
 import wallpaper3 from "../assets/images/wallpaper 3.jpg";
 import wallpaper4 from "../assets/images/wallpaper 4.jpg";
 import TopPick from "./TopPick.jsx";
-import Footer from "./Footer.jsx";
 import VideoSection from "./VideoSection.jsx";
+import { Link } from "react-router-dom";
 
 function Home() {
   return (
@@ -24,14 +24,15 @@ function Home() {
             Find unbeatable prices on leading battery brands like Exide,
             Powerzone, Globat, and Amaron—right here in town!
           </p>
-          <button className="action-button">Explore More</button>
+          <Link to="/products">
+            <button className="action-button">Explore Products</button>
+          </Link>
         </div>
       </div>
       <Brand />
       <hr />
       <TopPick />
       <VideoSection />
-      <Footer />
     </>
   );
 }
