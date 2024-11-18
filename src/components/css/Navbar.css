@@ -1,67 +1,96 @@
-/* Navbar container */
+/* Navbar Container */
 .navbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  background: linear-gradient(90deg, #bdc3c7, #2c3e50);
+  color: #ffffff;
   padding: 10px 20px;
-  background: linear-gradient(90deg, #ff7e5f, #feb47b);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.2); /* Bottom border */
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-  position: fixed;
-  width: 100%;
-  top: 0;
-  z-index: 1000;
-  height: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+/* Left Section - Logo */
+.navbar-left img {
+  height: 40px; /* Scales the logo */
+  cursor: pointer;
+  transition: transform 0.2s ease;
 }
 
-/* Left section for website name */
-.navbar-left h1 {
-  font-size: 1.5rem;
-  color: #333;
-  margin: 0;
+.navbar-left img:hover {
+  transform: scale(1.1); /* Adds subtle hover effect */
 }
 
-/* Center section for search bar */
+/* Center Section - Search Bar */
 .navbar-center {
   flex: 1;
   display: flex;
   justify-content: center;
+  padding: 0 10px;
 }
 
 .navbar-center input[type="text"] {
   width: 60%;
-  padding: 8px 12px;
-  font-size: 1rem;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  border-radius: 4px;
+  max-width: 500px;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 20px;
   outline: none;
+  font-size: 1rem;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
 }
 
-/* Right section for login icon */
+.navbar-center input[type="text"]:focus {
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Right Section - Profile Icon */
 .navbar-right .login-icon {
-  width: 30px;
-  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.2); /* Semi-transparent background */
+  padding: 8px;
+  border-radius: 50%;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-/* Responsive adjustments */
+.navbar-right .login-icon:hover {
+  background-color: rgba(255, 255, 255, 0.4); /* Lighter hover effect */
+}
+
+.navbar-right .login-icon svg {
+  color: #fff;
+}
+
+/* Responsive Design */
 @media (max-width: 768px) {
   .navbar-center input[type="text"] {
-    width: 70%; /* Makes the search bar slightly larger on small screens */
+    width: 80%; /* Adjust width on smaller screens */
+  }
+
+  .navbar-left img {
+    height: 30px; /* Scale down logo */
   }
 }
 
 @media (max-width: 480px) {
-  .navbar-left h1 {
-    font-size: 1.2rem;
+  .navbar {
+    flex-direction: column; /* Stack items vertically */
+    align-items: flex-start;
+    padding: 15px;
+  }
+
+  .navbar-center {
+    width: 100%;
+    justify-content: flex-start;
   }
 
   .navbar-center input[type="text"] {
-    width: 80%; /* Increases width of search bar for better usability on mobile */
+    width: 90%; /* Expand input to fit smaller screens */
   }
 
-  .navbar-right .login-icon {
-    width: 25px;
-    height: 25px;
+  .navbar-right {
+    align-self: flex-end; /* Align profile icon to the right */
   }
 }
