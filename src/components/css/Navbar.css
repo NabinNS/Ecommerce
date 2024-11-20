@@ -36,12 +36,11 @@
 .navbar-center input {
   padding: 8px;
   width: 100%;
-  max-width: 400px;
+  max-width: 600px;
   border: none;
-  border-radius: 4px;
   outline: none;
   transition: max-width 0.3s ease;
-  border-radius: 25px;
+  border-radius: 20px;
 }
 
 /* Navbar Right (Login Icon) */
@@ -53,6 +52,7 @@
 .navbar-right .login-icon {
   color: white;
   text-decoration: none;
+  margin-right: 15px;
 }
 
 /* Burger Button Styles */
@@ -63,6 +63,7 @@
   justify-content: space-between;
   width: 25px;
   height: 18px;
+  margin-right: 15px;
 }
 
 .burger .line {
@@ -129,7 +130,7 @@
 @media (max-width: 1024px) {
   /* Shrinking the search bar */
   .navbar-center input {
-    max-width: 300px; /* Makes search bar smaller */
+    max-width: 400px; /* Makes search bar smaller */
   }
 
   /* Navbar adjustment on smaller screens */
