@@ -3,7 +3,6 @@ import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 // import "./index.css";
 import App from "./App.jsx";
-import ProductList from "./components/product/ProductList.jsx";
 import Home from "./components/Home.jsx";
 import "bootstrap/dist/css/bootstrap.css";
 import Products from "./components/product/Products.jsx";
