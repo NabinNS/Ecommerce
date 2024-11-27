@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "../css/product/Products.css";
 import exide35Amp from "../../assets/battery/35-amp-battery-exide.jpg";
 import amaron35Amp from "../../assets/battery/35-amp-battery-amaron.jpg";
@@ -13,10 +13,13 @@ import amaron70Amp from "../../assets/battery/70-amp-battery-amaron.jpg";
 import powerzone70Amp from "../../assets/battery/70-amp-battery-powerzone.jpg";
 
 function Products() {
+  const [selectedCompany, setSelectedCompany] = useState(""); // Track selected company
+
   const products = [
     {
       id: 1,
       name: "Exide 35 Amp Battery",
+      company: "Exide",
       warranty: "3 Years",
       price: "$150",
       img: exide35Amp,
@@ -25,6 +28,7 @@ function Products() {
     {
       id: 2,
       name: "Amaron 35 Amp Battery",
+      company: "Amaron",
       warranty: "2 Years",
       price: "$200",
       img: amaron35Amp,
@@ -32,6 +36,7 @@ function Products() {
     {
       id: 3,
       name: "PowerZone 40 Amp Battery",
+      company: "Powerzone",
       warranty: "4 Years",
       price: "$180",
       img: powerzone35Amp,
@@ -39,6 +44,7 @@ function Products() {
     {
       id: 4,
       name: "Globat 40 Amp Battery",
+      company: "Globat",
       warranty: "4 Years",
       price: "$180",
       img: globat35Amp,
@@ -46,71 +52,108 @@ function Products() {
     {
       id: 5,
       name: "Exide 80 Amp Battery",
+      company: "Exide",
       warranty: "4 Years",
       price: "$180",
       img: exide80Amp,
     },
     {
       id: 6,
-      name: "Exide 80 Amp Battery",
+      name: "Amaron 80 Amp Battery",
+      company: "Amaron",
       warranty: "4 Years",
       price: "$180",
       img: amaron80Amp,
     },
     {
       id: 7,
-      name: "Exide 80 Amp Battery",
+      name: "PowerZone 80 Amp Battery",
+      company: "Powerzone",
       warranty: "4 Years",
       price: "$180",
       img: powerzone80Amp,
     },
     {
       id: 8,
-      name: "Exide 80 Amp Battery",
+      name: "Globat 80 Amp Battery",
+      company: "Globat",
       warranty: "4 Years",
       price: "$180",
       img: globat80Amp,
     },
     {
       id: 9,
-      name: "Exide 80 Amp Battery",
+      name: "Exide 70 Amp Battery",
+      company: "Exide",
       warranty: "4 Years",
       price: "$180",
       img: exide70Amp,
     },
     {
       id: 10,
-      name: "Exide 80 Amp Battery",
+      name: "Amaron 70 Amp Battery",
+      company: "Amaron",
       warranty: "4 Years",
       price: "$180",
       img: amaron70Amp,
     },
     {
       id: 11,
-      name: "Exide 80 Amp Battery",
+      name: "PowerZone 70 Amp Battery",
+      company: "Powerzone",
       warranty: "4 Years",
       price: "$180",
       img: powerzone70Amp,
     },
   ];
 
+  // Filter products based on the selected company
+  const filteredProducts = selectedCompany
+    ? products.filter((product) => product.company === selectedCompany)
+    : products;
+
   return (
-    <div className="product-page">
-      {products.map((product) => (
-        <div key={product.id} className="product-item">
-          {product.discount && (
-            <span className="discount-badge">{product.discount}</span>
-          )}
-          <img src={product.img} alt={product.name} />
-          <div className="product-info">
-            <h3>{product.name}</h3>
-            <p>Warranty: {product.warranty}</p>
-            <p>Price: {product.price}</p>
-            <button className="product-button">Buy Now</button>
-          </div>
+    <>
+      <div className="select-companies">
+        <h4>Top Companies</h4>
+        <div className="tabs-container">
+          {["All", "Exide", "Powerzone", "Amaron", "Globat"].map((company) => (
+            <button
+              key={company}
+              className={`tab-button ${
+                selectedCompany === company ? "active" : ""
+              }`}
+              onClick={() =>
+                setSelectedCompany(company === "All" ? "" : company)
+              }
+            >
+              {company}
+            </button>
+          ))}
         </div>
-      ))}
-    </div>
+      </div>
+      <hr />
+      <div className="product-page">
+        {filteredProducts.length > 0 ? (
+          filteredProducts.map((product) => (
+            <div key={product.id} className="product-item">
+              {product.discount && (
+                <span className="discount-badge">{product.discount}</span>
+              )}
+              <img src={product.img} alt={product.name} />
+              <div className="product-info">
+                <h3>{product.name}</h3>
+                <p>Warranty: {product.warranty}</p>
+                <p>Price: {product.price}</p>
+                <button className="product-button">Buy Now</button>
+              </div>
+            </div>
+          ))
+        ) : (
+          <p>No products available for the selected company.</p>
+        )}
+      </div>
+    </>
   );
 }
 

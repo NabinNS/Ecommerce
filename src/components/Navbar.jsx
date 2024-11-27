@@ -3,6 +3,7 @@ import { FaUserCircle } from "react-icons/fa";
 import { useState } from "react";
 import "./css/Navbar.css";
 import navbarlogo from "../assets/logo/navbarlogo.png";
+import { Link } from "react-router-dom";
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -14,11 +15,13 @@ function Navbar() {
   return (
     <div className="navbar">
       <div className="navbar-left">
-        <img src={navbarlogo} alt="logo" className="navbar-logo" />
-        <h4 className="navbar-title">
-          Battery And <br />
-          Parts Shop
-        </h4>
+        <Link to="/" className="navbar-link">
+          <img src={navbarlogo} alt="logo" className="navbar-logo" />
+          <h4 className="navbar-title">
+            Battery And <br />
+            Parts Shop
+          </h4>
+        </Link>
       </div>
       <div className={`navbar-center ${isMenuOpen ? "active" : ""}`}>
         <input type="text" placeholder="Search for products..." />

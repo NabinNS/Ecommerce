@@ -108,3 +108,56 @@
     font-size: 0.8rem;
   }
 }
+
+.select-companies {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.tabs-container {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin: 20px 0;
+}
+
+.tab-button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  border: 2px solid #ff3e3e;
+  border-radius: 4px;
+  background-color: white;
+  color: #ff3e3e;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.tab-button.active {
+  background-color: #ff3e3e;
+  color: white;
+}
+
+.tab-button:hover {
+  background-color: #e12f2f;
+  color: white;
+}
+
+.search-box {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.search-input {
+  width: 300px;
+  padding: 10px;
+  font-size: 1rem;
+  border: 2px solid #ff3e3e;
+  border-radius: 4px;
+  outline: none;
+}
+
+.search-input:focus {
+  border-color: #e12f2f;
+  box-shadow: 0px 0px 5px rgba(255, 62, 62, 0.5);
+}
