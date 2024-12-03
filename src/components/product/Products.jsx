@@ -20,8 +20,8 @@ function Products() {
       id: 1,
       name: "Exide 35 Amp Battery",
       company: "Exide",
-      warranty: "3 Years",
-      price: "$150",
+      warranty: "4 Years",
+      price: "7800",
       img: exide35Amp,
       discount: "10% OFF",
     },
@@ -29,8 +29,8 @@ function Products() {
       id: 2,
       name: "Amaron 35 Amp Battery",
       company: "Amaron",
-      warranty: "2 Years",
-      price: "$200",
+      warranty: "4 Years",
+      price: "7200",
       img: amaron35Amp,
     },
     {
@@ -38,7 +38,7 @@ function Products() {
       name: "PowerZone 40 Amp Battery",
       company: "Powerzone",
       warranty: "4 Years",
-      price: "$180",
+      price: "7000",
       img: powerzone35Amp,
     },
     {
@@ -46,7 +46,7 @@ function Products() {
       name: "Globat 40 Amp Battery",
       company: "Globat",
       warranty: "4 Years",
-      price: "$180",
+      price: "6800",
       img: globat35Amp,
     },
     {
@@ -54,7 +54,7 @@ function Products() {
       name: "Exide 80 Amp Battery",
       company: "Exide",
       warranty: "4 Years",
-      price: "$180",
+      price: "16500",
       img: exide80Amp,
     },
     {
@@ -62,7 +62,7 @@ function Products() {
       name: "Amaron 80 Amp Battery",
       company: "Amaron",
       warranty: "4 Years",
-      price: "$180",
+      price: "14000",
       img: amaron80Amp,
     },
     {
@@ -70,7 +70,7 @@ function Products() {
       name: "PowerZone 80 Amp Battery",
       company: "Powerzone",
       warranty: "4 Years",
-      price: "$180",
+      price: "14000",
       img: powerzone80Amp,
     },
     {
@@ -78,7 +78,7 @@ function Products() {
       name: "Globat 80 Amp Battery",
       company: "Globat",
       warranty: "4 Years",
-      price: "$180",
+      price: "13500",
       img: globat80Amp,
     },
     {
@@ -86,7 +86,7 @@ function Products() {
       name: "Exide 70 Amp Battery",
       company: "Exide",
       warranty: "4 Years",
-      price: "$180",
+      price: "14900",
       img: exide70Amp,
     },
     {
@@ -94,7 +94,7 @@ function Products() {
       name: "Amaron 70 Amp Battery",
       company: "Amaron",
       warranty: "4 Years",
-      price: "$180",
+      price: "13500",
       img: amaron70Amp,
     },
     {
@@ -102,7 +102,7 @@ function Products() {
       name: "PowerZone 70 Amp Battery",
       company: "Powerzone",
       warranty: "4 Years",
-      price: "$180",
+      price: "12900",
       img: powerzone70Amp,
     },
   ];
@@ -144,7 +144,9 @@ function Products() {
               <div className="product-info">
                 <h3>{product.name}</h3>
                 <p>Warranty: {product.warranty}</p>
-                <p>Price: {product.price}</p>
+                <p>
+                  Price: Nrs <span className="price">{product.price}</span>
+                </p>
                 <button className="product-button">Buy Now</button>
               </div>
             </div>
