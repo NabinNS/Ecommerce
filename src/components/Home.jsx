@@ -12,12 +12,12 @@ import { Link } from "react-router-dom";
 function Home() {
   const wallpapers = [wallpaper1, wallpaper2, wallpaper3, wallpaper4];
   const [wallpaperIndex, setWallpaperIndex] = useState(0);
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setWallpaperIndex((prevIndex) => (prevIndex + 1) % wallpapers.length);
-    }, 10000);
-    return () => clearInterval(interval);
-  }, [wallpapers.length]);
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     setWallpaperIndex((prevIndex) => (prevIndex + 1) % wallpapers.length);
+  //   }, 10000);
+  //   return () => clearInterval(interval);
+  // }, [wallpapers.length]);
 
   return (
     <>

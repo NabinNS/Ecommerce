@@ -6,6 +6,8 @@ import App from "./App.jsx";
 import Home from "./components/Home.jsx";
 import "bootstrap/dist/css/bootstrap.css";
 import Products from "./components/product/Products.jsx";
+import Login from "./components/auth/Login.jsx";
+import Register from "./components/auth/Register.jsx";
 
 const router = createBrowserRouter([
   {
@@ -19,6 +21,14 @@ const router = createBrowserRouter([
       {
         path: "/products",
         element: <Products />,
+      },
+      {
+        path: "/login",
+        element: <Login />,
+      },
+      {
+        path: "/register",
+        element: <Register />,
       },
     ],
   },
