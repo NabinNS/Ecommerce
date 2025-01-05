@@ -71,7 +71,10 @@ function Navbar() {
             {isDropdownOpen && (
               <div className="dropdown">
                 <p className="dropdown-element">Hello, {user.name || "User"}</p>
-                <Link className="dropdown-element" to="/viewprofile">
+                <Link
+                  className="dropdown-element"
+                  to={"/profile/dashboard/" + user.$id}
+                >
                   View Profile
                 </Link>
                 <button
@@ -99,7 +102,10 @@ function Navbar() {
           {user ? (
             <>
               <p className="dropdown-element">Hello, {user.name || "User"}</p>
-              <Link className="dropdown-element" to="/viewprofile">
+              <Link
+                className="dropdown-element"
+                to={"/profile/dashboard/" + user.$id}
+              >
                 View Profile
               </Link>
               <button

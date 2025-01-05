@@ -3,30 +3,40 @@ import { Client, Databases, ID, Query, Storage } from "appwrite";
 export class Service {
   client = new Client();
   databases;
-  bucket;
+  storage;
   constructor() {
     this.client
       .setEndpoint("https://cloud.appwrite.io/v1")
-      .setProject("674f153f0003326d93a9");
+      .setProject("6774cc19002df455590b");
     this.databases = new Databases(this.client);
-    this.bucket = new Storage(this.client);
+    this.storage = new Storage(this.client);
   }
 
-  async createPost({ title, slug, content, featuredImage, status, userId }) {
+  async addProduct({
+    productName,
+    price,
+    offer,
+    description,
+    ImageId,
+    userId,
+  }) {
     try {
-      if (!title || !slug || !content || !userId) {
+      if (!productName || !price || !description) {
         throw new Error("Required fields are missing.");
       }
       return await this.databases.createDocument(
-        "674f162e00169db3ead7",
-        "674f1664002c1bbd7bf2",
+        "6774cc89000edd33cc68",
+        "6774ccc8001913583835",
         ID.unique(),
+
         {
-          title,
-          content,
-          featuredImage,
-          status,
-          userId,
+          //tableName: variablename
+          Name: productName,
+          Price: price,
+          Offer: offer,
+          Description: description,
+          ProductImageId: ImageId,
+          userId: userId,
         }
       );
     } catch (error) {
@@ -35,23 +45,74 @@ export class Service {
     }
   }
 
-  async listPosts() {
+  async addProductImage({ productImage }) {
+    try {
+      return await this.storage.createFile(
+        "6774ce040019ccddfeee",
+        ID.unique(),
+        productImage
+      );
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getProductImage({ productImage, options = {} }) {
+    try {
+      const filePreview = await this.storage.getFilePreview(
+        "6774ce040019ccddfeee",
+        productImage
+      );
+      return filePreview.href;
+    } catch (error) {
+      console.error("Failed to fetch product image:", error);
+      throw error;
+    }
+  }
+  async listProducts() {
     try {
       return await this.databases.listDocuments(
-        "674f162e00169db3ead7",
-        "674f1664002c1bbd7bf2"
+        "6774cc89000edd33cc68",
+        "6774ccc8001913583835"
       );
     } catch (error) {
       console.error("Error listing post:", error.message);
       throw error;
     }
   }
-  async getPost(postId) {
+
+  async deleteProduct(productId) {
+    try {
+      return await this.databases.deleteDocument(
+        "6774cc89000edd33cc68",
+        "6774ccc8001913583835",
+        productId
+      );
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  }
+  async updateProduct(productId, product) {
+    try {
+      return await this.databases.updateDocument(
+        "6774cc89000edd33cc68",
+        "6774ccc8001913583835",
+        productId,
+        product
+      );
+    } catch (error) {
+      console.error("Error updating post:", error.message);
+      throw error;
+    }
+  }
+
+  async getProduct(productId) {
     try {
       return await this.databases.getDocument(
-        "674f162e00169db3ead7",
-        "674f1664002c1bbd7bf2",
-        postId
+        "6774cc89000edd33cc68",
+        "6774ccc8001913583835",
+        productId
       );
     } catch (error) {
       console.error("Error fetching post:", error.message);
@@ -62,8 +123,8 @@ export class Service {
   async getUserPost(userId) {
     try {
       return await this.databases.listDocuments(
-        "674f162e00169db3ead7",
-        "674f1664002c1bbd7bf2",
+        "6774cc89000edd33cc68",
+        "6774ccc8001913583835",
         [Query.equal("userId", userId)]
       );
     } catch (error) {

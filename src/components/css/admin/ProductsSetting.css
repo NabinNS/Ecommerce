@@ -1,0 +1,114 @@
+.table-container {
+  margin: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: white;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  background-color: #f8f9fa;
+}
+
+th,
+td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  font-weight: bold;
+}
+
+tr:hover {
+  background-color: #f1f1f1;
+}
+
+.product-image {
+  width: 50px;
+  height: 50px;
+  border-radius: 5px;
+}
+
+.action-button {
+  padding: 8px 12px;
+  margin: 0 5px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.action-button.edit {
+  background-color: #007bff;
+  color: white;
+}
+
+.action-button.view {
+  background-color: #00cc00;
+  color: white;
+}
+.action-button.delete {
+  background-color: #dc3545;
+  color: white;
+}
+
+.action-button:hover {
+  opacity: 0.9;
+}
+.add-product {
+  display: flex;
+  justify-content: end;
+}
+
+/* Add product css */
+.center-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(90deg, #2c3e50, #bdc3c7, #2c3e50);
+  min-height: calc(100vh - 3rem);
+}
+.error-message {
+  color: red;
+}
+.product-form-container {
+  margin: auto;
+  background-color: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  width: 100%;
+  text-align: center;
+}
+
+.no-products-message {
+  text-align: center;
+}
+.image-form-container {
+  display: flex;
+  justify-content: center;
+}
+.image-container {
+  margin: auto;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  width: 100%;
+  height: 300px;
+  text-align: center;
+  margin-right: 20px;
+}
+.edit-productImage {
+  width: 300px;
+  height: 300px;
+  object-fit: contain;
+}

@@ -1,151 +1,72 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import service from "../../appwrite/database";
+
 import "../css/product/Products.css";
-import exide35Amp from "../../assets/battery/35-amp-battery-exide.jpg";
-import amaron35Amp from "../../assets/battery/35-amp-battery-amaron.jpg";
-import powerzone35Amp from "../../assets/battery/35-amp-battery-powerzone.jpg";
-import globat35Amp from "../../assets/battery/35-amp-battery-globat.jpg";
-import exide80Amp from "../../assets/battery/80-amp-battery-exide.jpg";
-import amaron80Amp from "../../assets/battery/80-amp-battery-amaron.jpg";
-import powerzone80Amp from "../../assets/battery/80-amp-battery-powerzone.jpg";
-import globat80Amp from "../../assets/battery/80-amp-battery-globat.jpg";
-import exide70Amp from "../../assets/battery/70-amp-battery-exide.jpg";
-import amaron70Amp from "../../assets/battery/70-amp-battery-amaron.jpg";
-import powerzone70Amp from "../../assets/battery/70-amp-battery-powerzone.jpg";
+import exide35Amp from "../../assets/battery/35-amp-battery-exide.png";
+import amaron35Amp from "../../assets/battery/35-amp-battery-amaron.png";
+import powerzone35Amp from "../../assets/battery/35-amp-battery-powerzone.png";
+import globat35Amp from "../../assets/battery/35-amp-battery-globat.png";
+import exide80Amp from "../../assets/battery/80-amp-battery-exide.png";
+import amaron80Amp from "../../assets/battery/80-amp-battery-amaron.png";
+import powerzone80Amp from "../../assets/battery/80-amp-battery-powerzone.png";
+import globat80Amp from "../../assets/battery/80-amp-battery-globat.png";
+import exide70Amp from "../../assets/battery/70-amp-battery-exide.png";
+import amaron70Amp from "../../assets/battery/70-amp-battery-amaron.png";
+import powerzone70Amp from "../../assets/battery/70-amp-battery-powerzone.png";
 
 function Products() {
   const [selectedCompany, setSelectedCompany] = useState(""); // Track selected company
+  const [products, setProducts] = useState([]);
+  const [error, setError] = useState(null);
 
-  const products = [
-    {
-      id: 1,
-      name: "Exide 35 Amp Battery",
-      company: "Exide",
-      warranty: "4 Years",
-      price: "7800",
-      img: exide35Amp,
-      discount: "10% OFF",
-    },
-    {
-      id: 2,
-      name: "Amaron 35 Amp Battery",
-      company: "Amaron",
-      warranty: "4 Years",
-      price: "7200",
-      img: amaron35Amp,
-    },
-    {
-      id: 3,
-      name: "PowerZone 40 Amp Battery",
-      company: "Powerzone",
-      warranty: "4 Years",
-      price: "7000",
-      img: powerzone35Amp,
-    },
-    {
-      id: 4,
-      name: "Globat 40 Amp Battery",
-      company: "Globat",
-      warranty: "4 Years",
-      price: "6800",
-      img: globat35Amp,
-    },
-    {
-      id: 5,
-      name: "Exide 80 Amp Battery",
-      company: "Exide",
-      warranty: "4 Years",
-      price: "16500",
-      img: exide80Amp,
-    },
-    {
-      id: 6,
-      name: "Amaron 80 Amp Battery",
-      company: "Amaron",
-      warranty: "4 Years",
-      price: "14000",
-      img: amaron80Amp,
-    },
-    {
-      id: 7,
-      name: "PowerZone 80 Amp Battery",
-      company: "Powerzone",
-      warranty: "4 Years",
-      price: "14000",
-      img: powerzone80Amp,
-    },
-    {
-      id: 8,
-      name: "Globat 80 Amp Battery",
-      company: "Globat",
-      warranty: "4 Years",
-      price: "13500",
-      img: globat80Amp,
-    },
-    {
-      id: 9,
-      name: "Exide 70 Amp Battery",
-      company: "Exide",
-      warranty: "4 Years",
-      price: "14900",
-      img: exide70Amp,
-    },
-    {
-      id: 10,
-      name: "Amaron 70 Amp Battery",
-      company: "Amaron",
-      warranty: "4 Years",
-      price: "13500",
-      img: amaron70Amp,
-    },
-    {
-      id: 11,
-      name: "PowerZone 70 Amp Battery",
-      company: "Powerzone",
-      warranty: "4 Years",
-      price: "12900",
-      img: powerzone70Amp,
-    },
-  ];
+  useEffect(() => {
+    const productsList = async () => {
+      try {
+        const response = await service.listProducts();
+        if (response.documents) {
+          const productsWithImages = await Promise.all(
+            response.documents.map(async (product) => {
+              const imageUrl = await service.getProductImage({
+                productImage: product.ProductImageId,
+              });
+              return { ...product, imageUrl };
+            })
+          );
+          setProducts(productsWithImages);
+        } else {
+          setError("No products found.");
+        }
+      } catch (err) {
+        console.error("Failed to fetch products:", err);
+        setError("Unable to fetch products. Please try again later.");
+      }
+    };
+    productsList();
+  }, []);
 
   // Filter products based on the selected company
-  const filteredProducts = selectedCompany
-    ? products.filter((product) => product.company === selectedCompany)
-    : products;
+  // const filteredProducts = selectedCompany
+  //   ? products.filter((product) => product.company === selectedCompany)
+  //   : products;
 
   return (
     <>
       <div className="select-companies">
         <h4>Top Companies</h4>
-        <div className="tabs-container">
-          {["All", "Exide", "Powerzone", "Amaron", "Globat"].map((company) => (
-            <button
-              key={company}
-              className={`tab-button ${
-                selectedCompany === company ? "active" : ""
-              }`}
-              onClick={() =>
-                setSelectedCompany(company === "All" ? "" : company)
-              }
-            >
-              {company}
-            </button>
-          ))}
-        </div>
       </div>
       <hr />
       <div className="product-page">
-        {filteredProducts.length > 0 ? (
-          filteredProducts.map((product) => (
-            <div key={product.id} className="product-item">
-              {product.discount && (
-                <span className="discount-badge">{product.discount}</span>
+        {products.length > 0 ? (
+          products.map((product, index) => (
+            <div className="product-item" key={index}>
+              {product.Offer != 0 && (
+                <span className="discount-badge">{product.Offer}% Off</span>
               )}
-              <img src={product.img} alt={product.name} />
+              <img src={product.imageUrl} alt={product.Name} />
               <div className="product-info">
-                <h3>{product.name}</h3>
-                <p>Warranty: {product.warranty}</p>
+                <h3>{product.Name}</h3>
                 <p>
-                  Price: Nrs <span className="price">{product.price}</span>
+                  Price: Nrs <span className="price">{product.Price}</span>
                 </p>
                 <button className="product-button">Buy Now</button>
               </div>

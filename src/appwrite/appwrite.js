@@ -1,4 +1,4 @@
-import { Client, Account, ID } from "appwrite";
+import { Client, Account, ID, Databases } from "appwrite";
 
 // export const client = new Client();
 
@@ -12,11 +12,13 @@ import { Client, Account, ID } from "appwrite";
 export class AuthService {
   client = new Client();
   account;
+  databases;
   constructor() {
     this.client
       .setEndpoint("https://cloud.appwrite.io/v1")
-      .setProject("674f153f0003326d93a9");
+      .setProject("6774cc19002df455590b");
     this.account = new Account(this.client);
+    this.databases = new Databases(this.client);
   }
   async createAccount({ email, password, name }) {
     try {
@@ -28,6 +30,16 @@ export class AuthService {
       );
       if (userAccount) {
         // return this.login({ email, password });
+
+        const roleDocument = await this.databases.createDocument(
+          "6774cc89000edd33cc68",
+          "6774d3d8002e6abada54",
+          ID.unique(),
+          {
+            UserId: userAccount.$id,
+            Role: "Customer",
+          }
+        );
         return userAccount;
       } else {
         return userAccount;

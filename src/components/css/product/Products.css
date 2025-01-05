@@ -6,6 +6,7 @@
   justify-content: center; /* Center items horizontally */
   padding: 20px;
   background-color: #f9f9f9;
+  min-height: 70vh;
 }
 
 /* Product Card */
@@ -21,6 +22,7 @@
   border: 1px solid #ddd;
   width: 250px; /* Fixed width for cards */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  max-height: 300px;
 }
 
 .product-item:hover {
