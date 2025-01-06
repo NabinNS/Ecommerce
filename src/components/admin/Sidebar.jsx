@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { FaSignInAlt, FaTachometerAlt, FaBox, FaThList } from "react-icons/fa";
 import Content from "./Content.jsx";
-import "../css/admin/sidebar.css";
+import "../css/admin/Sidebar.css";
 
 const Sidebar = () => {
   return (
