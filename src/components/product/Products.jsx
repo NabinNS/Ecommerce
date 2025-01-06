@@ -52,7 +52,7 @@ function Products() {
   return (
     <>
       <div className="select-companies">
-        <h4>Top Companies</h4>
+        <h4>Top Products</h4>
       </div>
       <hr />
       <div className="product-page">
@@ -73,7 +73,7 @@ function Products() {
             </div>
           ))
         ) : (
-          <p>No products available for the selected company.</p>
+          <p className="select-companies">No products available currently.</p>
         )}
       </div>
     </>

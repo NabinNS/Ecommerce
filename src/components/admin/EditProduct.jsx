@@ -110,17 +110,24 @@ function EditProduct() {
                 id="offers"
                 value={product.Price || ""}
                 onChange={(e) =>
-                  setProduct({ ...product, Price: e.target.value })
+                  setProduct({
+                    ...product,
+                    Price: parseInt(e.target.value, 10),
+                  })
                 }
                 required
               />
+
               <Input
                 label="Offers"
                 type="Number"
                 id="offers"
                 value={product.Offer || ""}
                 onChange={(e) =>
-                  setProduct({ ...product, Offer: e.target.value })
+                  setProduct({
+                    ...product,
+                    Offer: parseInt(e.target.value, 10),
+                  })
                 }
               />
               <Input

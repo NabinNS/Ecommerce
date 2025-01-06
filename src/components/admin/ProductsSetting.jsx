@@ -98,7 +98,7 @@ function ProductsSetting() {
                     <td>
                       <button className="action-button view">View</button>
                       <Link
-                        to={"../edit/" + product.$id}
+                        to={"../edit-product/" + product.$id}
                         className="action-button edit"
                       >
                         Edit

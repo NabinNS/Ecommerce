@@ -1,5 +1,5 @@
-import BrandLogos from "./BrandLogos";
 import "./css/Brand.css";
+import { Link } from "react-router-dom";
 
 import Exide from "../assets/logo/exide.png";
 import Amaron from "../assets/logo/amaron.png";
@@ -19,7 +19,11 @@ function Brand() {
         <h3 className="section-title">Top Brands</h3>
         <div className="brands-container">
           {brandData.map((brand, index) => (
-            <BrandLogos key={index} logo={brand.logo} altText={brand.altText} />
+            <Link to={`/products`}>
+              <div className="brand-card">
+                <img src={brand.logo} alt={brand.altText} />
+              </div>
+            </Link>
           ))}
         </div>
       </div>

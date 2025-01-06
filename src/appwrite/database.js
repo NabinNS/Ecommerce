@@ -69,6 +69,7 @@ export class Service {
       throw error;
     }
   }
+
   async listProducts() {
     try {
       return await this.databases.listDocuments(
@@ -120,17 +121,111 @@ export class Service {
     }
   }
 
-  async getUserPost(userId) {
+  async listBrands() {
     try {
       return await this.databases.listDocuments(
         "6774cc89000edd33cc68",
-        "6774ccc8001913583835",
-        [Query.equal("userId", userId)]
+        "677bb8450010469c6ad3"
+      );
+    } catch (error) {
+      console.error("Error listing post:", error.message);
+      throw error;
+    }
+  }
+
+  async addBrandImage({ brandImage }) {
+    try {
+      return await this.storage.createFile(
+        "677bb8bd001d23e6318c",
+        ID.unique(),
+        brandImage
       );
     } catch (error) {
       throw error;
     }
   }
+  async addBrand({ brandName, ImageId, userId }) {
+    try {
+      return await this.databases.createDocument(
+        "6774cc89000edd33cc68",
+        "677bb8450010469c6ad3",
+        ID.unique(),
+
+        {
+          //tableName: variablename
+          Name: brandName,
+          BrandImageId: ImageId,
+          userId: userId,
+        }
+      );
+    } catch (error) {
+      console.error("Error adding brand:", error.message);
+      throw error;
+    }
+  }
+
+  async getBrand(brandId) {
+    try {
+      return await this.databases.getDocument(
+        "6774cc89000edd33cc68",
+        "677bb8450010469c6ad3",
+        brandId
+      );
+    } catch (error) {
+      console.error("Error fetching brand:", error.message);
+      throw error;
+    }
+  }
+  async getBrandImage({ brandImage }) {
+    try {
+      const filePreview = await this.storage.getFilePreview(
+        "677bb8bd001d23e6318c",
+        brandImage
+      );
+
+      return filePreview.href;
+    } catch (error) {
+      console.error("Failed to fetch product image:", error);
+      throw error;
+    }
+  }
+
+  async updateBrand(brandId, brand) {
+    try {
+      return await this.databases.updateDocument(
+        "6774cc89000edd33cc68",
+        "677bb8450010469c6ad3",
+        brandId,
+        brand
+      );
+    } catch (error) {
+      console.error("Error updating post:", error.message);
+      throw error;
+    }
+  }
+  async deleteBrand(brandId) {
+    try {
+      return await this.databases.deleteDocument(
+        "6774cc89000edd33cc68",
+        "677bb8450010469c6ad3",
+        brandId
+      );
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  }
+  // async getUserPost(userId) {
+  //   try {
+  //     return await this.databases.listDocuments(
+  //       "6774cc89000edd33cc68",
+  //       "6774ccc8001913583835",
+  //       [Query.equal("userId", userId)]
+  //     );
+  //   } catch (error) {
+  //     throw error;
+  //   }
+  // }
   //   async updatePost(slug, { title, content, featuredImage, status }) {
   //     try {
   //       return await this.databases.updateDocument(

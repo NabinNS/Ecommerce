@@ -14,6 +14,10 @@ import Admin from "./components/admin/Admin.jsx";
 import ProductsSetting from "./components/admin/ProductsSetting.jsx";
 import AddProducts from "./components/admin/AddProducts.jsx";
 import EditProduct from "./components/admin/EditProduct.jsx";
+import CategoriesSetting from "./components/admin/BrandsSetting.jsx";
+import BrandsSetting from "./components/admin/BrandsSetting.jsx";
+import AddBrands from "./components/admin/AddBrands.jsx";
+import EditBrand from "./components/admin/EditBrand.jsx";
 
 const router = createBrowserRouter([
   {
@@ -51,8 +55,20 @@ const router = createBrowserRouter([
         element: <AddProducts />,
       },
       {
-        path: "edit/:productId",
+        path: "edit-product/:productId",
         element: <EditProduct />,
+      },
+      {
+        path: "brands",
+        element: <BrandsSetting />,
+      },
+      {
+        path: "addbrands",
+        element: <AddBrands />,
+      },
+      {
+        path: "edit-brand/:brandId",
+        element: <EditBrand />,
       },
     ],
   },

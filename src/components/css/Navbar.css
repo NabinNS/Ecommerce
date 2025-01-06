@@ -20,19 +20,20 @@
 }
 
 .login-button {
-  padding: 8px 16px;
-
-  color: #fff;
-  border: 1px solid rgb(236, 57, 57);
-  border-radius: 5px;
-  font-size: 0.9rem;
+  background-color: #3498db;
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  border: none;
+  border-radius: 50px; /* Rounded corners */
+  padding: 10px 20px;
   cursor: pointer;
-  margin-top: 5px;
-  transition: background-color 0.3s ease, transform 0.3s ease;
+  text-transform: uppercase;
+  transition: background-color 0.3s ease;
 }
 
 .login-button:hover {
-  background-color: #da3137;
+  background-color: #5dade2;
   transform: scale(1.05);
 }
 a,

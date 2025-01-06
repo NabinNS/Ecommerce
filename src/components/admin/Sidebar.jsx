@@ -26,6 +26,11 @@ const Sidebar = () => {
             </Link>
           </li>
           <li>
+            <Link to="brands">
+              <FaThList /> Brands
+            </Link>
+          </li>
+          <li>
             <Link to="categories">
               <FaThList /> Categories
             </Link>
