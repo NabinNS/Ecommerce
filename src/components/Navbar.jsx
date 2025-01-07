@@ -11,6 +11,7 @@ function Navbar() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState("");
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -46,6 +47,12 @@ function Navbar() {
     };
   }, []);
 
+  const searchFunction = (e) => {
+    const newQuery = e.target.value;
+    setSearchQuery(newQuery);
+    navigate(`/products?query=${newQuery}`, { replace: true });
+  };
+
   return (
     <div className="navbar">
       <div className="navbar-left">
@@ -58,7 +65,12 @@ function Navbar() {
         </Link>
       </div>
       <div className={`navbar-center ${isMenuOpen ? "active" : ""}`}>
-        <input type="text" placeholder="Search for products..." />
+        <input
+          type="text"
+          placeholder="Search for products..."
+          value={searchQuery}
+          onChange={searchFunction}
+        />
       </div>
       <div className="navbar-right">
         {user ? (

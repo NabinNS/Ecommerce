@@ -1,24 +1,17 @@
 import React, { useState, useEffect } from "react";
 import service from "../../appwrite/database";
-
+import { useLocation } from "react-router-dom";
 import "../css/product/Products.css";
-import exide35Amp from "../../assets/battery/35-amp-battery-exide.png";
-import amaron35Amp from "../../assets/battery/35-amp-battery-amaron.png";
-import powerzone35Amp from "../../assets/battery/35-amp-battery-powerzone.png";
-import globat35Amp from "../../assets/battery/35-amp-battery-globat.png";
-import exide80Amp from "../../assets/battery/80-amp-battery-exide.png";
-import amaron80Amp from "../../assets/battery/80-amp-battery-amaron.png";
-import powerzone80Amp from "../../assets/battery/80-amp-battery-powerzone.png";
-import globat80Amp from "../../assets/battery/80-amp-battery-globat.png";
-import exide70Amp from "../../assets/battery/70-amp-battery-exide.png";
-import amaron70Amp from "../../assets/battery/70-amp-battery-amaron.png";
-import powerzone70Amp from "../../assets/battery/70-amp-battery-powerzone.png";
 
 function Products() {
-  const [selectedCompany, setSelectedCompany] = useState(""); // Track selected company
   const [products, setProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
   const [error, setError] = useState(null);
 
+  const location = useLocation();
+  const query = new URLSearchParams(location.search).get("query") || "";
+
+  // Fetch all products
   useEffect(() => {
     const productsList = async () => {
       try {
@@ -33,6 +26,7 @@ function Products() {
             })
           );
           setProducts(productsWithImages);
+          setFilteredProducts(productsWithImages); // Initialize filteredProducts with all products
         } else {
           setError("No products found.");
         }
@@ -44,10 +38,22 @@ function Products() {
     productsList();
   }, []);
 
-  // Filter products based on the selected company
-  // const filteredProducts = selectedCompany
-  //   ? products.filter((product) => product.company === selectedCompany)
-  //   : products;
+  // Filter products based on the query
+  useEffect(() => {
+    if (query) {
+      const filtered = products.filter((product) => {
+        const queryLower = query.toLowerCase();
+        return (
+          product.Name.toLowerCase().includes(queryLower) ||
+          product.Description.toLowerCase().includes(queryLower)
+          // product.Brand.toLowerCase().includes(queryLower)
+        );
+      });
+      setFilteredProducts(filtered); // Update filteredProducts
+    } else {
+      setFilteredProducts(products); // Reset to all products if no query
+    }
+  }, [query, products]);
 
   return (
     <>
@@ -56,10 +62,10 @@ function Products() {
       </div>
       <hr />
       <div className="product-page">
-        {products.length > 0 ? (
-          products.map((product, index) => (
+        {filteredProducts.length > 0 ? (
+          filteredProducts.map((product, index) => (
             <div className="product-item" key={index}>
-              {product.Offer != 0 && (
+              {product.Offer !== 0 && (
                 <span className="discount-badge">{product.Offer}% Off</span>
               )}
               <img src={product.imageUrl} alt={product.Name} />
