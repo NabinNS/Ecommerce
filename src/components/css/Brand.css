@@ -1,6 +1,6 @@
 /* Styling for Top Brands section */
 .top-brands-section {
-  padding: 40px 20px;
+  padding-bottom: 50px;
   background-color: #f9f9f9; /* Light background for contrast */
   border-top: 2px solid rgba(0, 0, 0, 0.1);
   box-shadow: inset 0px 10px 15px rgba(0, 0, 0, 0.05);
@@ -9,32 +9,18 @@
 
 .section-title {
   font-size: 1.8rem;
-  margin-bottom: 20px;
   color: #333;
   font-weight: bold;
-  position: relative; /* Allows positioning of the pseudo-element */
-  padding-bottom: 10px; /* Space between text and line */
-}
-
-.section-title::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: 0;
-  width: 250px; /* Adjust width as needed */
-  height: 2px; /* Border thickness */
-  background-color: #c62c2f; /* Border color */
+  position: relative;
 }
 
 .brands-container {
   display: flex;
-  justify-content: center;
   gap: 20px;
-  flex-wrap: wrap; /* Allows wrapping on smaller screens */
 }
 
 .brand-card {
+  flex: 0 0 auto; /* Prevent shrinking */
   background-color: white;
   padding: 15px;
   width: 150px;
@@ -58,29 +44,34 @@
   box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
 }
 
-/* Responsive styling for smaller screens */
-/* @media (max-width: 768px) {
-  .brands-container {
-    gap: 15px;
-  }
+.brands-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  margin-bottom: 20px;
+  background-color: white;
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.08);
+}
+.brand-search {
+  max-width: 300px;
+  height: 50px;
+}
+.brands-scroll-container {
+  overflow-x: auto; /* Enables horizontal scrolling */
+  white-space: nowrap;
+  margin: 0px 20px;
+}
 
-  .brand-card {
-    width: 80px;
-    height: 80px;
-  }
-
-  .section-title {
-    font-size: 1.5rem;
-  }
+.brands-scroll-container::-webkit-scrollbar {
+  display: none;
 }
 
 @media (max-width: 480px) {
-  .brand-card {
-    width: 70px;
-    height: 70px;
+  .brand-search {
+    max-width: 200px;
   }
-
   .section-title {
-    font-size: 1.2rem;
+    margin-top: 9px;
+    font-size: 1.5rem;
   }
-} */
+}

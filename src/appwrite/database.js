@@ -128,7 +128,7 @@ export class Service {
         "677bb8450010469c6ad3"
       );
     } catch (error) {
-      console.error("Error listing post:", error.message);
+      console.error("Error listing brands:", error.message);
       throw error;
     }
   }

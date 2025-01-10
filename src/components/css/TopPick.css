@@ -6,13 +6,6 @@
   background-color: #f8f9fa; /* Light background */
 }
 
-.section-title {
-  font-size: 2rem;
-  color: #333;
-  margin-bottom: 20px;
-  font-weight: bold;
-}
-
 .picks-container {
   display: flex;
   justify-content: center;
