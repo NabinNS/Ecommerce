@@ -17,6 +17,7 @@ export class Service {
     price,
     offer,
     description,
+    selectedBrand,
     ImageId,
     userId,
   }) {
@@ -35,6 +36,7 @@ export class Service {
           Price: price,
           Offer: offer,
           Description: description,
+          Brand: selectedBrand,
           ProductImageId: ImageId,
           userId: userId,
         }

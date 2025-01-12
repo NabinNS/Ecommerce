@@ -10,6 +10,7 @@ function Products() {
 
   const location = useLocation();
   const query = new URLSearchParams(location.search).get("query") || "";
+  // const brand = new URLSearchParams(location.search).get("brand") || "";
 
   // Fetch all products
   useEffect(() => {
@@ -45,8 +46,8 @@ function Products() {
         const queryLower = query.toLowerCase();
         return (
           product.Name.toLowerCase().includes(queryLower) ||
-          product.Description.toLowerCase().includes(queryLower)
-          // product.Brand.toLowerCase().includes(queryLower)
+          product.Description.toLowerCase().includes(queryLower) ||
+          product.Brand.toLowerCase().includes(queryLower)
         );
       });
       setFilteredProducts(filtered); // Update filteredProducts

@@ -1,3 +1,5 @@
+import "./components/css/Input.css";
+
 function Input({ label, type, className, ...props }) {
   return (
     <>

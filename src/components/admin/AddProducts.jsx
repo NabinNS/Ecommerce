@@ -1,6 +1,6 @@
 import "../css/admin/ProductsSetting.css";
 import Input from "../../Input";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import service from "../../appwrite/database";
 import { AuthContext } from "../../AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -17,8 +17,27 @@ function AddProducts() {
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const [brandOptions, setBrandOptions] = useState([
+    "Exide",
+    "Amaron",
+    "Powerzone",
+    "Globat",
+  ]);
+
+  const [selectedBrand, setSelectedBrand] = useState(brandOptions[0]);
+
   const handleImageChange = (e) => {
     setProductImage(e.target.files[0]);
+  };
+
+  const fetchBrand = async (e) => {
+    try {
+      const data = await service.listBrands();
+      const brandNames = data.documents.map((doc) => doc.Name);
+      setBrandOptions((prevOptions) => [...prevOptions, ...brandNames]);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const AddProduct = async (e) => {
@@ -39,6 +58,7 @@ function AddProducts() {
         price,
         offer: offer ? offer : 0,
         description,
+        selectedBrand,
         ImageId: productImageData.$id,
         userId: user.$id,
       });
@@ -60,6 +80,10 @@ function AddProducts() {
     }
   };
 
+  useEffect(() => {
+    fetchBrand();
+  }, []);
+
   return (
     <>
       <div className="product-form-container">
@@ -74,31 +98,32 @@ function AddProducts() {
             onChange={(e) => setProductName(e.target.value)}
             required
           />
-          <Input
-            label="Price"
-            type="number"
-            id="price"
-            value={price}
-            placeholder="Enter Product Price"
-            onChange={(e) =>
-              setPrice(e.target.value ? parseInt(e.target.value, 10) : "")
-            }
-            // Ensure value is an integer
-            required
-          />
+          <div className="input-form-group">
+            <Input
+              label="Price"
+              type="number"
+              id="price"
+              value={price}
+              placeholder="Enter Product Price"
+              onChange={(e) =>
+                setPrice(e.target.value ? parseInt(e.target.value, 10) : "")
+              }
+              // Ensure value is an integer
+              required
+            />
 
-          <Input
-            label="Offer"
-            type="number"
-            id="offer"
-            value={offer}
-            placeholder="Enter Offer (if any)"
-            onChange={(e) =>
-              setOffer(e.target.value ? parseInt(e.target.value, 10) : "")
-            }
-            // Ensure value is an integer
-          />
-
+            <Input
+              label="Offer"
+              type="number"
+              id="offer"
+              value={offer}
+              placeholder="Enter Offer (if any)"
+              onChange={(e) =>
+                setOffer(e.target.value ? parseInt(e.target.value, 10) : "")
+              }
+              // Ensure value is an integer
+            />
+          </div>
           <Input
             label="Description"
             type="text"
@@ -108,14 +133,32 @@ function AddProducts() {
             onChange={(e) => setDescription(e.target.value)}
             required
           ></Input>
-          <Input
-            label="Product Image **PNG files only**"
-            type="file"
-            id="productImage"
-            onChange={handleImageChange}
-            placeholder="Product Image"
-            accept="image/*"
-          />
+
+          <div className="input-form-group">
+            <div className="form-group">
+              <label htmlFor="brand">Select Brand</label>
+              <select
+                value={selectedBrand}
+                onChange={(e) => {
+                  setSelectedBrand(e.target.value);
+                }}
+              >
+                {brandOptions.map((brand, index) => (
+                  <option key={index} value={brand}>
+                    {brand}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <Input
+              label="Product Image **PNG files only**"
+              type="file"
+              id="productImage"
+              onChange={handleImageChange}
+              placeholder="Product Image"
+              accept="image/*"
+            />
+          </div>
           {error && <p className="error-message">{error}</p>}
           <button
             type="submit"

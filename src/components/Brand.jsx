@@ -62,7 +62,7 @@ function Brand() {
         <div className="brands-scroll-container">
           <div className="brands-container">
             {filteredBrandData.map((brand, index) => (
-              <Link to={`/products?brand=${brand.altText}`} key={index}>
+              <Link to={`/products?query=${brand.altText}`} key={index}>
                 <div className="brand-card">
                   <img src={brand.logo} alt={brand.altText} />
                 </div>

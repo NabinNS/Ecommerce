@@ -4,6 +4,13 @@ import { useEffect, useState, useContext } from "react";
 import Input from "../../Input";
 import { AuthContext } from "../../AuthContext";
 function EditProduct() {
+  const [brandOptions, setBrandOptions] = useState([
+    "Exide",
+    "Amaron",
+    "Powerzone",
+    "Globat",
+  ]);
+
   const { productId } = useParams();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -16,6 +23,10 @@ function EditProduct() {
   const getProduct = async () => {
     try {
       const result = await service.getProduct(productId);
+      const brandData = await service.listBrands();
+      const brandNames = brandData.documents.map((doc) => doc.Name);
+      setBrandOptions((prevOptions) => [...prevOptions, ...brandNames]);
+
       const imageUrl = await service.getProductImage({
         productImage: result.ProductImageId,
       });
@@ -54,6 +65,7 @@ function EditProduct() {
         Offer: product.Offer,
         Description: product.Description,
         ProductImageId: newImageId,
+        Brand: product.Brand,
         userId: user.$id,
       });
       // Navigate back to the previous page
@@ -139,6 +151,24 @@ function EditProduct() {
                   setProduct({ ...product, Description: e.target.value })
                 }
               />
+              <div className="input-form-group">
+                <div className="form-group">
+                  <label htmlFor="brand">Select Brand</label>
+                  <select
+                    value={product.Brand}
+                    onChange={(e) => {
+                      setProduct({ ...product, Brand: e.target.value });
+                    }}
+                  >
+                    <option value={product.Brand}>{product.Brand}</option>
+                    {brandOptions.map((brand, index) => (
+                      <option key={index} value={brand}>
+                        {brand}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
 
               <Input
                 label="Product Image **PNG files only**"
