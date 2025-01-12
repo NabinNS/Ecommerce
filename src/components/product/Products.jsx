@@ -10,7 +10,6 @@ function Products() {
 
   const location = useLocation();
   const query = new URLSearchParams(location.search).get("query") || "";
-  // const brand = new URLSearchParams(location.search).get("brand") || "";
 
   // Fetch all products
   useEffect(() => {

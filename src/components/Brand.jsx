@@ -51,6 +51,11 @@ function Brand() {
       <div className="top-brands-section">
         <div className="brands-header">
           <h4 className="section-title">Top Brands</h4>
+          <div className="slideshow-container">
+            <p className="slideshow">
+              {brandData.map((data) => data.altText).join(" , ")}
+            </p>
+          </div>
           <input
             className="brand-search"
             type="text"

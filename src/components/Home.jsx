@@ -39,7 +39,6 @@ function Home() {
         </div>
       </div>
       <Brand />
-      <hr />
       <TopPick />
       <VideoSection />
     </>

@@ -1,9 +1,18 @@
 /* TopPick.css */
 
 .top-picks-section {
+  padding-bottom: 50px;
+  background-color: #f9f9f9;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0px 10px 15px rgba(0, 0, 0, 0.05);
   text-align: center;
-  padding: 40px 20px;
-  background-color: #f8f9fa; /* Light background */
+}
+.picks-title {
+  font-size: 1.8rem;
+  color: #333;
+  font-weight: bold;
+  position: relative;
+  margin: auto;
 }
 
 .picks-container {
@@ -44,4 +53,41 @@
   font-size: 0.9rem;
   color: #555;
   margin: 0;
+}
+@media (max-width: 768px) {
+  .pick-card {
+    width: 200px; /* Reduce card size */
+    padding: 15px;
+  }
+
+  .pick-icon {
+    font-size: 2rem; /* Smaller icon */
+  }
+
+  .pick-card h3 {
+    font-size: 1rem;
+  }
+
+  .pick-card p {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .pick-card {
+    width: 180px; /* Even smaller for very narrow screens */
+    padding: 10px;
+  }
+
+  .pick-icon {
+    font-size: 1.8rem;
+  }
+
+  .pick-card h3 {
+    font-size: 0.9rem;
+  }
+
+  .pick-card p {
+    font-size: 0.75rem;
+  }
 }
