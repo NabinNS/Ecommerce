@@ -1,7 +1,7 @@
 /* Product Page Container */
 
 .product-title {
-  margin-top: 15px;
+  margin: 15px 0px;
 }
 
 .filter-button {
@@ -104,6 +104,7 @@
   cursor: pointer;
   margin-top: 5px;
   transition: background-color 0.3s ease, transform 0.3s ease;
+  margin-bottom: 10px;
 }
 
 .product-button:hover {
@@ -226,8 +227,8 @@
 /* Responsive Styling */
 @media (max-width: 768px) {
   .product-item {
-    width: 100%; /* Full width on smaller screens */
-    max-width: 320px; /* Restrict max width for better visuals */
+    width: 100%;
+    max-width: 320px;
   }
 
   .product-info h3 {
@@ -286,5 +287,14 @@
   }
   .filter-container.shorten-height {
     max-height: 70px;
+  }
+  @media (max-width: 575px) {
+    .product-item {
+      width: 100%;
+      max-width: 160px;
+    }
+    .product-button {
+      padding: 6px 10px;
+    }
   }
 }
