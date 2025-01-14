@@ -28,7 +28,7 @@ function TopPick() {
         <Link to={"/products?query=tyre"}>
           <div className="pick-card">
             <GiCarWheel className="pick-icon" />
-            <h3>Ultra Durable Tires</h3>
+            <h3>Ultra Durable Tyres</h3>
             <p>Long-lasting tires suitable for all road conditions.</p>
           </div>
         </Link>

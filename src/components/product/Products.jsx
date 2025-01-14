@@ -7,6 +7,7 @@ function Products() {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [error, setError] = useState(null);
+  const [showFilters, setShowFilters] = useState(false);
 
   const location = useLocation();
   const query = new URLSearchParams(location.search).get("query") || "";
@@ -57,30 +58,122 @@ function Products() {
 
   return (
     <>
-      <div className="select-companies">
-        <h4>Top Products</h4>
-      </div>
-      <hr />
       <div className="product-page">
-        {filteredProducts.length > 0 ? (
-          filteredProducts.map((product, index) => (
-            <div className="product-item" key={index}>
-              {product.Offer !== 0 && (
-                <span className="discount-badge">{product.Offer}% Off</span>
-              )}
-              <img src={product.imageUrl} alt={product.Name} />
-              <div className="product-info">
-                <h3>{product.Name}</h3>
-                <p>
-                  Price: Nrs <span className="price">{product.Price}</span>
-                </p>
-                <button className="product-button">Buy Now</button>
+        {/* <div className="filter-container"> */}
+        <div
+          className={`filter-container ${showFilters ? "" : "shorten-height"}`}
+        >
+          <div className="product-title-container">
+            <h4 className="product-title">Products Filter</h4>
+            <button
+              className="filter-button disabled"
+              onClick={() => {
+                setShowFilters((prev) => !prev);
+              }}
+            >
+              {showFilters ? "Hide Filters" : "Show Filters"}
+            </button>
+          </div>
+          <hr className={`${showFilters ? "" : "hidden"}`} />
+          <div className={`filter-list ${showFilters ? "" : "hidden"}`}>
+            {/* <div className="filter-list"> */}
+            <div className="filter-group">
+              <label>Brand</label>
+              <select>
+                <option value="all" disabled>
+                  All Brands
+                </option>
+                <option value="electronics">Electronics</option>
+                <option value="fashion">Fashion</option>
+                <option value="books">Books</option>
+              </select>
+            </div>
+            <div className="filter-group">
+              <label>Price Range</label>
+              <div className="price-range-inputs">
+                <input
+                  type="number"
+                  placeholder="From"
+                  min="0"
+                  className="price-input"
+                />
+                <span className="price-separator">to</span>
+                <input
+                  type="number"
+                  placeholder="To"
+                  min="0"
+                  className="price-input"
+                />
               </div>
             </div>
-          ))
-        ) : (
-          <p className="select-companies">No products available currently.</p>
-        )}
+
+            <div className="filter-group">
+              <label>Category</label>
+              <select>
+                <option value="all" disabled>
+                  All Categories
+                </option>
+                <option value="electronics">Electronics</option>
+                <option value="fashion">Fashion</option>
+                <option value="books">Books</option>
+              </select>
+            </div>
+            <div className="filter-group">
+              <div>
+                <label>Hot Deals</label>
+                <input type="checkbox" />
+                <label className="inline-label">Show hot deals</label>
+              </div>
+            </div>
+            <div className="filter-group">
+              <label>Vehicle Type</label>
+              <select>
+                <option value="all" disabled>
+                  All Categories
+                </option>
+                <option value="electronics">Electronics</option>
+                <option value="fashion">Fashion</option>
+                <option value="books">Books</option>
+              </select>
+            </div>
+            <div className="filter-group">
+              <div>
+                <label>View Latest Products</label>
+                <input type="checkbox" />
+                <label className="inline-label">Show Newest Products</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="product-container">
+          <div>
+            <h4 className="product-title">Top Products</h4>
+          </div>
+          <hr />
+          <div className="product-list">
+            {filteredProducts.length > 0 ? (
+              filteredProducts.map((product, index) => (
+                <div className="product-item" key={index}>
+                  {product.Offer !== 0 && (
+                    <span className="discount-badge">{product.Offer}% Off</span>
+                  )}
+                  <img src={product.imageUrl} alt={product.Name} />
+                  <div className="product-info">
+                    <h3>{product.Name}</h3>
+                    <p>
+                      Price: Nrs <span className="price">{product.Price}</span>
+                    </p>
+                    <button className="product-button">Buy Now</button>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <p className="select-companies">
+                No products available currently.
+              </p>
+            )}
+          </div>
+        </div>
       </div>
     </>
   );

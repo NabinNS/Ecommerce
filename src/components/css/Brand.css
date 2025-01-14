@@ -1,9 +1,9 @@
 /* Styling for Top Brands section */
 .top-brands-section {
   padding-bottom: 50px;
-  background-color: #f9f9f9; /* Light background for contrast */
+  background-color: #fffafa;
   border-top: 2px solid rgba(0, 0, 0, 0.1);
-  box-shadow: inset 0px 10px 15px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0px 10px 15px rgba(0, 0, 0, 0.02);
   text-align: center;
 }
 
