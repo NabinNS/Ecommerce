@@ -7,16 +7,20 @@ function Products() {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [error, setError] = useState(null);
+
   const [showFilters, setShowFilters] = useState(false);
 
   const location = useLocation();
   const query = new URLSearchParams(location.search).get("query") || "";
 
+  const itemsPerPage = 15;
+  const [currentPage, setCurrentPage] = useState(0);
+
   // Fetch all products
   useEffect(() => {
     const productsList = async () => {
       try {
-        const response = await service.listProducts();
+        const response = await service.listProducts(currentPage, itemsPerPage);
         if (response.documents) {
           const productsWithImages = await Promise.all(
             response.documents.map(async (product) => {
@@ -27,7 +31,7 @@ function Products() {
             })
           );
           setProducts(productsWithImages);
-          setFilteredProducts(productsWithImages); // Initialize filteredProducts with all products
+          setFilteredProducts(productsWithImages);
         } else {
           setError("No products found.");
         }
@@ -37,7 +41,7 @@ function Products() {
       }
     };
     productsList();
-  }, []);
+  }, [currentPage]);
 
   // Filter products based on the query
   useEffect(() => {
@@ -63,7 +67,7 @@ function Products() {
         <div
           className={`filter-container ${showFilters ? "" : "shorten-height"}`}
         >
-          <div className="product-title-container">
+          <div className="title-filter">
             <h4 className="product-title">Products Filter</h4>
             <button
               className="filter-button disabled"
@@ -74,7 +78,7 @@ function Products() {
               {showFilters ? "Hide Filters" : "Show Filters"}
             </button>
           </div>
-          <hr className={`${showFilters ? "" : "hidden"}`} />
+          <hr className={`product-hr ${showFilters ? "" : "hidden"}`} />
           <div className={`filter-list ${showFilters ? "" : "hidden"}`}>
             {/* <div className="filter-list"> */}
             <div className="filter-group">
@@ -146,10 +150,18 @@ function Products() {
           </div>
         </div>
         <div className="product-container">
-          <div>
+          <div className="title-filter">
             <h4 className="product-title">Top Products</h4>
+            <select className="product-filter-select">
+              <option value="all" disabled>
+                All Brands
+              </option>
+              <option value="electronics">Electronics</option>
+              <option value="fashion">Fashion</option>
+              <option value="books">Books</option>
+            </select>
           </div>
-          <hr />
+          <hr className="product-hr" />
           <div className="product-list">
             {filteredProducts.length > 0 ? (
               filteredProducts.map((product, index) => (
@@ -172,6 +184,23 @@ function Products() {
                 No products available currently.
               </p>
             )}
+          </div>
+          <div className="pagination">
+            <button
+              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 0))}
+              disabled={currentPage === 0}
+              className="pagination-button previous"
+            >
+              Previous
+            </button>
+            <span className="page-number">{currentPage + 1}</span>
+            <button
+              onClick={() => setCurrentPage((prev) => prev + 1)}
+              disabled={filteredProducts.length < itemsPerPage}
+              className="pagination-button next"
+            >
+              Next
+            </button>
           </div>
         </div>
       </div>

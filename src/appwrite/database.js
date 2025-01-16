@@ -72,8 +72,15 @@ export class Service {
     }
   }
 
-  async listProducts() {
+  async listProducts(currentPage, itemsPerPage) {
     try {
+      if (currentPage && itemsPerPage) {
+        return await this.databases.listDocuments(
+          "6774cc89000edd33cc68",
+          "6774ccc8001913583835",
+          [Query.limit(itemsPerPage), Query.offset(currentPage * itemsPerPage)]
+        );
+      }
       return await this.databases.listDocuments(
         "6774cc89000edd33cc68",
         "6774ccc8001913583835"
