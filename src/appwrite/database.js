@@ -72,9 +72,24 @@ export class Service {
     }
   }
 
-  async listProducts(currentPage, itemsPerPage) {
+  async listProducts(currentPage, itemsPerPage, query) {
     try {
-      if (currentPage && itemsPerPage) {
+      if (query) {
+        const response = await this.databases.listDocuments(
+          "6774cc89000edd33cc68",
+          "6774ccc8001913583835"
+        );
+        return {
+          ...response,
+          documents: response.documents.filter(
+            (product) =>
+              product.Name.toLowerCase().includes(query.toLowerCase()) ||
+              product.Description.toLowerCase().includes(query.toLowerCase()) ||
+              product.Brand.toLowerCase().includes(query.toLowerCase())
+          ),
+        };
+      }
+      if (currentPage !== undefined && currentPage !== null && itemsPerPage) {
         return await this.databases.listDocuments(
           "6774cc89000edd33cc68",
           "6774ccc8001913583835",

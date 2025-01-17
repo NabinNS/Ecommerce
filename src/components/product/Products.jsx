@@ -16,11 +16,36 @@ function Products() {
   const itemsPerPage = 15;
   const [currentPage, setCurrentPage] = useState(0);
 
+  const [brandData, setBrandData] = useState([
+    { logo: "Exide", altText: "Exide" },
+    { logo: "Amaron", altText: "Amaron" },
+    { logo: "Powerzone", altText: "Powerzone" },
+    { logo: "Globat", altText: "Globat" },
+  ]);
+
+  useEffect(() => {
+    const fetchBrands = async () => {
+      try {
+        const response = await service.listBrands();
+        setBrandData((prevData) => [...prevData, ...response.documents]);
+      } catch (err) {
+        console.error("Failed to fetch products:", err);
+        // setError("Unable to fetch products. Please try again later.");
+      }
+    };
+
+    fetchBrands();
+  }, []);
+
   // Fetch all products
   useEffect(() => {
     const productsList = async () => {
       try {
-        const response = await service.listProducts(currentPage, itemsPerPage);
+        const response = await service.listProducts(
+          currentPage,
+          itemsPerPage,
+          query
+        );
         if (response.documents) {
           const productsWithImages = await Promise.all(
             response.documents.map(async (product) => {
@@ -33,6 +58,8 @@ function Products() {
           setProducts(productsWithImages);
           setFilteredProducts(productsWithImages);
         } else {
+          setProducts([]);
+          setFilteredProducts([]);
           setError("No products found.");
         }
       } catch (err) {
@@ -41,24 +68,24 @@ function Products() {
       }
     };
     productsList();
-  }, [currentPage]);
+  }, [currentPage, query]);
 
   // Filter products based on the query
-  useEffect(() => {
-    if (query) {
-      const filtered = products.filter((product) => {
-        const queryLower = query.toLowerCase();
-        return (
-          product.Name.toLowerCase().includes(queryLower) ||
-          product.Description.toLowerCase().includes(queryLower) ||
-          product.Brand.toLowerCase().includes(queryLower)
-        );
-      });
-      setFilteredProducts(filtered); // Update filteredProducts
-    } else {
-      setFilteredProducts(products); // Reset to all products if no query
-    }
-  }, [query, products]);
+  // useEffect(() => {
+  //   if (query) {
+  //     const filtered = products.filter((product) => {
+  //       const queryLower = query.toLowerCase();
+  //       return (
+  //         product.Name.toLowerCase().includes(queryLower) ||
+  //         product.Description.toLowerCase().includes(queryLower) ||
+  //         product.Brand.toLowerCase().includes(queryLower)
+  //       );
+  //     });
+  //     setFilteredProducts(filtered); // Update filteredProducts
+  //   } else {
+  //     setFilteredProducts(products); // Reset to all products if no query
+  //   }
+  // }, [query, products]);
 
   return (
     <>
@@ -110,7 +137,6 @@ function Products() {
                 />
               </div>
             </div>
-
             <div className="filter-group">
               <label>Category</label>
               <select>
