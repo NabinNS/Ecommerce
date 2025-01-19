@@ -74,7 +74,9 @@ export class Service {
 
   async listProducts(currentPage, itemsPerPage, query) {
     try {
+      console.log(query);
       if (query) {
+        console.log(query);
         const response = await this.databases.listDocuments(
           "6774cc89000edd33cc68",
           "6774ccc8001913583835"

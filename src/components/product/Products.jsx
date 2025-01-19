@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import service from "../../appwrite/database";
+import { Link, useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import "../css/product/Products.css";
 
@@ -11,17 +12,31 @@ function Products() {
   const [showFilters, setShowFilters] = useState(false);
 
   const location = useLocation();
-  const query = new URLSearchParams(location.search).get("query") || "";
-
+  // let query = new URLSearchParams(location.search).get("query") || "";
+  const [query, setQuery] = useState("");
   const itemsPerPage = 15;
   const [currentPage, setCurrentPage] = useState(0);
+  const navigate = useNavigate();
 
   const [brandData, setBrandData] = useState([
-    { logo: "Exide", altText: "Exide" },
-    { logo: "Amaron", altText: "Amaron" },
-    { logo: "Powerzone", altText: "Powerzone" },
-    { logo: "Globat", altText: "Globat" },
+    { name: "Exide", altText: "Exide" },
+    { name: "Amaron", altText: "Amaron" },
+    { name: "Powerzone", altText: "Powerzone" },
+    { name: "Globat", altText: "Globat" },
   ]);
+  const filterBrandSelect = (e) => {
+    const newQuery = e.target.value;
+    setQuery(newQuery);
+  };
+
+  useEffect(() => {
+    const urlQuery = new URLSearchParams(location.search).get("query") || "";
+    if (urlQuery) {
+      setQuery(urlQuery);
+    } else {
+      setQuery(""); //required to list every product when filter is empty
+    }
+  }, [location.search]);
 
   useEffect(() => {
     const fetchBrands = async () => {
@@ -110,13 +125,15 @@ function Products() {
             {/* <div className="filter-list"> */}
             <div className="filter-group">
               <label>Brand</label>
-              <select>
-                <option value="all" disabled>
+              <select onChange={filterBrandSelect}>
+                <option value={""} selected>
                   All Brands
                 </option>
-                <option value="electronics">Electronics</option>
-                <option value="fashion">Fashion</option>
-                <option value="books">Books</option>
+                {brandData?.map((data, index) => (
+                  <option key={index} value={data.name}>
+                    {data.name}
+                  </option>
+                ))}
               </select>
             </div>
             <div className="filter-group">

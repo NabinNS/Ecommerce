@@ -10,10 +10,10 @@ import { useEffect, useState } from "react";
 
 function Brand() {
   const [brandData, setBrandData] = useState([
-    { logo: Exide, altText: "Exide" },
-    { logo: Amaron, altText: "Amaron" },
-    { logo: Powerzone, altText: "Powerzone" },
-    { logo: Globat, altText: "Globat" },
+    { name: Exide, altText: "Exide" },
+    { name: Amaron, altText: "Amaron" },
+    { name: Powerzone, altText: "Powerzone" },
+    { name: Globat, altText: "Globat" },
   ]);
 
   const [searchBrand, setSearchBrand] = useState("");
@@ -27,7 +27,7 @@ function Brand() {
               const imageUrl = await service.getBrandImage({
                 brandImage: brand.BrandImageId,
               });
-              return { logo: imageUrl, altText: brand.Name };
+              return { name: imageUrl, altText: brand.Name };
             })
           );
           // setBrandData([...brandData, ...fetchedBrandData]);
@@ -69,7 +69,7 @@ function Brand() {
             {filteredBrandData.map((brand, index) => (
               <Link to={`/products?query=${brand.altText}`} key={index}>
                 <div className="brand-card">
-                  <img src={brand.logo} alt={brand.altText} />
+                  <img src={brand.name} alt={brand.altText} />
                 </div>
               </Link>
             ))}
