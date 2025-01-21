@@ -72,38 +72,112 @@ export class Service {
     }
   }
 
-  async listProducts(currentPage, itemsPerPage, query) {
+  // async listProducts(currentPage, itemsPerPage, query, hotDeal) {
+  //   try {
+  //     if (hotDeal) {
+  //       const response = await this.databases.listDocuments(
+  //         "6774cc89000edd33cc68",
+  //         "6774ccc8001913583835"
+  //       );
+  //       return {
+  //         documents: response.documents.filter((product) => product.Offer != 0),
+  //       };
+  //     }
+  //     if (query) {
+  //       const response = await this.databases.listDocuments(
+  //         "6774cc89000edd33cc68",
+  //         "6774ccc8001913583835"
+  //       );
+  //       return {
+  //         documents: response.documents.filter(
+  //           (product) =>
+  //             product.Name.toLowerCase().includes(query.toLowerCase()) ||
+  //             product.Description.toLowerCase().includes(query.toLowerCase()) ||
+  //             product.Brand.toLowerCase().includes(query.toLowerCase())
+  //         ),
+  //       };
+  //     }
+  //     if (currentPage !== undefined && currentPage !== null && itemsPerPage) {
+  //       return await this.databases.listDocuments(
+  //         "6774cc89000edd33cc68",
+  //         "6774ccc8001913583835",
+  //         [Query.limit(itemsPerPage), Query.offset(currentPage * itemsPerPage)]
+  //       );
+  //     }
+  //     return await this.databases.listDocuments(
+  //       "6774cc89000edd33cc68",
+  //       "6774ccc8001913583835"
+  //     );
+  //   } catch (error) {
+  //     console.error("Error listing post:", error.message);
+  //     throw error;
+  //   }
+  // }
+
+  async listProducts(
+    currentPage,
+    itemsPerPage,
+    query,
+    hotDeal,
+    showNewest,
+    minPrice,
+    maxPrice
+  ) {
     try {
-      console.log(query);
-      if (query) {
-        console.log(query);
-        const response = await this.databases.listDocuments(
-          "6774cc89000edd33cc68",
-          "6774ccc8001913583835"
-        );
-        return {
-          ...response,
-          documents: response.documents.filter(
-            (product) =>
-              product.Name.toLowerCase().includes(query.toLowerCase()) ||
-              product.Description.toLowerCase().includes(query.toLowerCase()) ||
-              product.Brand.toLowerCase().includes(query.toLowerCase())
-          ),
-        };
-      }
-      if (currentPage !== undefined && currentPage !== null && itemsPerPage) {
-        return await this.databases.listDocuments(
-          "6774cc89000edd33cc68",
-          "6774ccc8001913583835",
-          [Query.limit(itemsPerPage), Query.offset(currentPage * itemsPerPage)]
-        );
-      }
-      return await this.databases.listDocuments(
+      // Default fetch for products without any filters
+      let response = await this.databases.listDocuments(
         "6774cc89000edd33cc68",
-        "6774ccc8001913583835"
+        "6774ccc8001913583835",
+        currentPage !== undefined && currentPage !== null && itemsPerPage
+          ? [
+              Query.limit(itemsPerPage),
+              Query.offset(currentPage * itemsPerPage),
+            ]
+          : []
       );
+      let filteredDocuments = response.documents;
+
+      // First, filter by query if provided
+      if (query) {
+        filteredDocuments = filteredDocuments.filter(
+          (product) =>
+            product.Name.toLowerCase().includes(query.toLowerCase()) ||
+            product.Description.toLowerCase().includes(query.toLowerCase()) ||
+            product.Brand.toLowerCase().includes(query.toLowerCase())
+        );
+      }
+
+      if (minPrice && maxPrice) {
+        filteredDocuments = filteredDocuments.filter((product) => {
+          const productPrice = product.Price; // Assuming `Price` is the property name
+          return (
+            (!minPrice || productPrice >= parseFloat(minPrice)) &&
+            (!maxPrice || productPrice <= parseFloat(maxPrice))
+          );
+        });
+      }
+
+      // Then, apply hot deal filter if it's checked
+      if (hotDeal) {
+        filteredDocuments = filteredDocuments.filter(
+          (product) => product.Offer !== 0
+        );
+      }
+      if (showNewest) {
+        filteredDocuments = filteredDocuments.filter((product) => {
+          const createdDate = new Date(product.$createdAt);
+          const currentDate = new Date();
+          // Show only products created within the last 7 days
+          return (
+            createdDate >=
+            new Date(currentDate.setDate(currentDate.getDate() - 7))
+          );
+        });
+      }
+
+      return { documents: filteredDocuments };
     } catch (error) {
-      console.error("Error listing post:", error.message);
+      console.error("Error listing products:", error.message);
       throw error;
     }
   }

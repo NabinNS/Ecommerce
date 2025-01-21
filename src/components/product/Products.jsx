@@ -8,6 +8,12 @@ function Products() {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [error, setError] = useState(null);
+  const [hotDeals, setHotDeals] = useState(false);
+  const [showNewest, setShowNewest] = useState(false);
+  const [minPrice, setMinPrice] = useState("");
+  const [maxPrice, setMaxPrice] = useState("");
+  const [priceSearchTriggered, setPriceSearchTriggered] = useState(false);
+  const [sortOrder, setSortOrder] = useState(""); // "high" or "low"
 
   const [showFilters, setShowFilters] = useState(false);
 
@@ -24,6 +30,8 @@ function Products() {
     { name: "Powerzone", altText: "Powerzone" },
     { name: "Globat", altText: "Globat" },
   ]);
+  const categoryData = ["Battery", "Tyres", "Lubricants", "Miscellaneous"];
+
   const filterBrandSelect = (e) => {
     const newQuery = e.target.value;
     setQuery(newQuery);
@@ -42,7 +50,24 @@ function Products() {
     const fetchBrands = async () => {
       try {
         const response = await service.listBrands();
-        setBrandData((prevData) => [...prevData, ...response.documents]);
+        if (response?.documents) {
+          const apiBrands = response.documents.map((data) => ({
+            name: data.Name,
+            altText: data.Name,
+          }));
+
+          const uniqueBrands = [...brandData, ...apiBrands].reduce(
+            (acc, brand) => {
+              if (!acc.some((item) => item.name === brand.name)) {
+                acc.push(brand);
+              }
+              return acc;
+            },
+            []
+          );
+
+          setBrandData(uniqueBrands);
+        }
       } catch (err) {
         console.error("Failed to fetch products:", err);
         // setError("Unable to fetch products. Please try again later.");
@@ -53,54 +78,75 @@ function Products() {
   }, []);
 
   // Fetch all products
-  useEffect(() => {
-    const productsList = async () => {
-      try {
-        const response = await service.listProducts(
-          currentPage,
-          itemsPerPage,
-          query
+  const productsList = async () => {
+    try {
+      const response = await service.listProducts(
+        currentPage,
+        itemsPerPage,
+        query,
+        hotDeals,
+        showNewest,
+        minPrice ? parseFloat(minPrice) : undefined,
+        maxPrice ? parseFloat(maxPrice) : undefined
+      );
+      if (response.documents) {
+        const productsWithImages = await Promise.all(
+          response.documents.map(async (product) => {
+            const imageUrl = await service.getProductImage({
+              productImage: product.ProductImageId,
+            });
+            return { ...product, imageUrl };
+          })
         );
-        if (response.documents) {
-          const productsWithImages = await Promise.all(
-            response.documents.map(async (product) => {
-              const imageUrl = await service.getProductImage({
-                productImage: product.ProductImageId,
-              });
-              return { ...product, imageUrl };
-            })
-          );
-          setProducts(productsWithImages);
-          setFilteredProducts(productsWithImages);
-        } else {
-          setProducts([]);
-          setFilteredProducts([]);
-          setError("No products found.");
-        }
-      } catch (err) {
-        console.error("Failed to fetch products:", err);
-        setError("Unable to fetch products. Please try again later.");
+        setProducts(productsWithImages);
+        setFilteredProducts(productsWithImages);
+      } else {
+        setProducts([]);
+        setFilteredProducts([]);
+        setError("No products found.");
       }
-    };
+    } catch (err) {
+      console.error("Failed to fetch products:", err);
+      setError("Unable to fetch products. Please try again later.");
+    }
+  };
+  useEffect(() => {
     productsList();
-  }, [currentPage, query]);
+  }, [currentPage, query, hotDeals, showNewest]);
+
+  const resetPrice = () => {
+    setMinPrice("");
+    setMaxPrice("");
+    setPriceSearchTriggered(true);
+  };
+
+  const handlePriceSearch = () => {
+    setPriceSearchTriggered(true);
+  };
+  useEffect(() => {
+    if (priceSearchTriggered) {
+      productsList(); // Fetch products based on current minPrice and maxPrice
+      setPriceSearchTriggered(false); // Reset the trigger after the update
+    }
+  }, [priceSearchTriggered]);
 
   // Filter products based on the query
-  // useEffect(() => {
-  //   if (query) {
-  //     const filtered = products.filter((product) => {
-  //       const queryLower = query.toLowerCase();
-  //       return (
-  //         product.Name.toLowerCase().includes(queryLower) ||
-  //         product.Description.toLowerCase().includes(queryLower) ||
-  //         product.Brand.toLowerCase().includes(queryLower)
-  //       );
-  //     });
-  //     setFilteredProducts(filtered); // Update filteredProducts
-  //   } else {
-  //     setFilteredProducts(products); // Reset to all products if no query
-  //   }
-  // }, [query, products]);
+  const filterAndSortProducts = () => {
+    let updatedProducts = [...products];
+
+    // Sort by price
+    if (sortOrder === "high") {
+      updatedProducts.sort((a, b) => b.Price - a.Price);
+    } else if (sortOrder === "low") {
+      updatedProducts.sort((a, b) => a.Price - b.Price);
+    }
+
+    setFilteredProducts(updatedProducts);
+  };
+
+  useEffect(() => {
+    filterAndSortProducts();
+  }, [products, sortOrder]); // Trigger filtering when these values change
 
   return (
     <>
@@ -126,9 +172,7 @@ function Products() {
             <div className="filter-group">
               <label>Brand</label>
               <select onChange={filterBrandSelect}>
-                <option value={""} selected>
-                  All Brands
-                </option>
+                <option value="">All Brands</option>
                 {brandData?.map((data, index) => (
                   <option key={index} value={data.name}>
                     {data.name}
@@ -144,6 +188,8 @@ function Products() {
                   placeholder="From"
                   min="0"
                   className="price-input"
+                  value={minPrice}
+                  onChange={(e) => setMinPrice(e.target.value)}
                 />
                 <span className="price-separator">to</span>
                 <input
@@ -151,42 +197,66 @@ function Products() {
                   placeholder="To"
                   min="0"
                   className="price-input"
+                  value={maxPrice}
+                  onChange={(e) => setMaxPrice(e.target.value)}
                 />
+                <button
+                  className="price-search-btn"
+                  onClick={handlePriceSearch}
+                >
+                  search
+                </button>
               </div>
+              {(maxPrice || minPrice) && (
+                <div className="price-btn">
+                  <button className="price-reset-btn" onClick={resetPrice}>
+                    Reset
+                  </button>
+                </div>
+              )}
             </div>
             <div className="filter-group">
               <label>Category</label>
-              <select>
-                <option value="all" disabled>
-                  All Categories
-                </option>
-                <option value="electronics">Electronics</option>
-                <option value="fashion">Fashion</option>
-                <option value="books">Books</option>
+              <select onChange={filterBrandSelect}>
+                <option value="">All Categories</option>
+                {categoryData.map((data, index) => (
+                  <option key={index} value={data}>
+                    {data}
+                  </option>
+                ))}
               </select>
             </div>
             <div className="filter-group">
               <div>
                 <label>Hot Deals</label>
-                <input type="checkbox" />
+                <input
+                  type="checkbox"
+                  checked={hotDeals}
+                  onChange={(e) => {
+                    setHotDeals(!hotDeals);
+                  }}
+                />
                 <label className="inline-label">Show hot deals</label>
               </div>
             </div>
             <div className="filter-group">
               <label>Vehicle Type</label>
-              <select>
-                <option value="all" disabled>
-                  All Categories
-                </option>
-                <option value="electronics">Electronics</option>
-                <option value="fashion">Fashion</option>
-                <option value="books">Books</option>
+              <select onChange={filterBrandSelect}>
+                <option value="">All Type</option>
+                <option value="Four Wheeler">Four Wheeler</option>
+                <option value="Two Wheeler">Two Wheeler</option>
               </select>
             </div>
             <div className="filter-group">
               <div>
                 <label>View Latest Products</label>
-                <input type="checkbox" />
+                <input
+                  type="checkbox"
+                  checked={showNewest}
+                  onChange={(e) => {
+                    setShowNewest(!showNewest);
+                  }}
+                />
                 <label className="inline-label">Show Newest Products</label>
               </div>
             </div>
@@ -195,13 +265,19 @@ function Products() {
         <div className="product-container">
           <div className="title-filter">
             <h4 className="product-title">Top Products</h4>
-            <select className="product-filter-select">
-              <option value="all" disabled>
-                All Brands
+            <select
+              className="product-filter-select"
+              onChange={(e) => {
+                setSortOrder(e.target.value);
+              }}
+              value={sortOrder}
+            >
+              <option value="" disabled>
+                Product Price
               </option>
-              <option value="electronics">Electronics</option>
-              <option value="fashion">Fashion</option>
-              <option value="books">Books</option>
+              <option value="default">Default</option>
+              <option value="high">High to Low</option>
+              <option value="low">Low to High</option>
             </select>
           </div>
           <hr className="product-hr" />
