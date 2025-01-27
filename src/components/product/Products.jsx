@@ -5,6 +5,7 @@ import { useLocation } from "react-router-dom";
 import "../css/product/Products.css";
 import { FaCartShopping } from "react-icons/fa6";
 import { AuthContext } from "../../AuthContext";
+import Swal from "sweetalert2";
 
 function Products() {
   const [products, setProducts] = useState([]);
@@ -153,10 +154,26 @@ function Products() {
 
   //add product to cart
   const addToCart = async (productId) => {
-    try {
-      await service.addToCart({ productId, userId: user.$id });
-    } catch (error) {
-      setError("Failed to add product. Please try again.");
+    if (user) {
+      try {
+        await service.addToCart({ productId, userId: user.$id });
+      } catch (error) {
+        setError("Failed to add product. Please try again.");
+      }
+    } else {
+      Swal.fire({
+        title: "Error!",
+        text: "You need to be logged in to add product to cart",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Login",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          navigate("/login");
+        }
+      });
     }
   };
 
