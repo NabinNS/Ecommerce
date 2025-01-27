@@ -1,4 +1,5 @@
 import { FaUserCircle } from "react-icons/fa";
+import { FaCartShopping } from "react-icons/fa6";
 import { useState, useContext, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../AuthContext";
@@ -75,6 +76,10 @@ function Navbar() {
       <div className="navbar-right">
         {user ? (
           <div className="user-menu" ref={dropdownRef}>
+            <Link to="/cart">
+              <FaCartShopping size={28} className="cart-icon" />
+            </Link>
+
             <FaUserCircle
               size={28}
               className="user-icon"
@@ -89,6 +94,7 @@ function Navbar() {
                 >
                   View Profile
                 </Link>
+
                 <button
                   className="dropdown-element logout-button"
                   onClick={handleLogout}
@@ -119,6 +125,9 @@ function Navbar() {
                 to={"/profile/dashboard/" + user.$id}
               >
                 View Profile
+              </Link>
+              <Link className="dropdown-element" to="/cart">
+                My Cart
               </Link>
               <button
                 className="dropdown-element logout-button"

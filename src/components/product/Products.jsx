@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import service from "../../appwrite/database";
 import { Link, useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import "../css/product/Products.css";
+import { FaCartShopping } from "react-icons/fa6";
+import { AuthContext } from "../../AuthContext";
 
 function Products() {
   const [products, setProducts] = useState([]);
@@ -31,6 +33,7 @@ function Products() {
     { name: "Globat", altText: "Globat" },
   ]);
   const categoryData = ["Battery", "Tyres", "Lubricants", "Miscellaneous"];
+  const { user, setUser } = useContext(AuthContext);
 
   const filterBrandSelect = (e) => {
     const newQuery = e.target.value;
@@ -147,6 +150,15 @@ function Products() {
   useEffect(() => {
     filterAndSortProducts();
   }, [products, sortOrder]); // Trigger filtering when these values change
+
+  //add product to cart
+  const addToCart = async (productId) => {
+    try {
+      await service.addToCart({ productId, userId: user.$id });
+    } catch (error) {
+      setError("Failed to add product. Please try again.");
+    }
+  };
 
   return (
     <>
@@ -294,7 +306,17 @@ function Products() {
                     <p>
                       Price: Nrs <span className="price">{product.Price}</span>
                     </p>
-                    <button className="product-button">Buy Now</button>
+                    <div className="button-icon">
+                      <button className="product-button">Buy Now</button>
+                      <button
+                        className="cart-button"
+                        onClick={() => {
+                          addToCart(product.$id);
+                        }}
+                      >
+                        <FaCartShopping />
+                      </button>
+                    </div>
                   </div>
                 </div>
               ))

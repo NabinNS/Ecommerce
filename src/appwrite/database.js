@@ -315,96 +315,59 @@ export class Service {
       throw error;
     }
   }
-  // async getUserPost(userId) {
-  //   try {
-  //     return await this.databases.listDocuments(
-  //       "6774cc89000edd33cc68",
-  //       "6774ccc8001913583835",
-  //       [Query.equal("userId", userId)]
-  //     );
-  //   } catch (error) {
-  //     throw error;
-  //   }
-  // }
-  //   async updatePost(slug, { title, content, featuredImage, status }) {
-  //     try {
-  //       return await this.databases.updateDocument(
-  //         conf.appwriteDatabaseId,
-  //         conf.appwriteCollectionId,
-  //         slug,
-  //         {
-  //           title,
-  //           content,
-  //           featuredImage,
-  //           status,
-  //         }
-  //       );
-  //     } catch (error) {
-  //       console.log("Appwrite service :: getCurrentUser :: error", error);
-  //     }
-  //   }
-  //   async deletePost(slug) {
-  //     try {
-  //       await this.databases.deleteDocument(
-  //         conf.appwriteDatabaseId,
-  //         conf.appwriteCollectionId,
-  //         slug
-  //       );
-  //       return true;
-  //     } catch (error) {
-  //       console.log("Appwrite service :: getCurrentUser :: error", error);
-  //       return false;
-  //     }
-  //   }
-  //   async getPost(slug) {
-  //     try {
-  //       return await this.databases.getDocument(
-  //         conf.appwriteDatabaseId,
-  //         conf.appwriteCollectionId,
-  //         slug
-  //       );
-  //     } catch (error) {
-  //       console.log("Appwrite service :: getCurrentUser :: error", error);
-  //       return false;
-  //     }
-  //   }
-  //   async getPosts(queries = [Query.equal("status", "active")]) {
-  //     try {
-  //       return await this.databases.listDocuments(
-  //         conf.appwriteDatabaseId,
-  //         conf.appwriteCollectionId,
-  //         queries
-  //       );
-  //     } catch (error) {
-  //       console.log("Appwrite service :: getCurrentUser :: error", error);
-  //       return false;
-  //     }
-  //   }
 
-  //   async uploadFile(file) {
-  //     try {
-  //       return await this.bucket.createFile(
-  //         conf.appwriteBucketId,
-  //         ID.unique(),
-  //         file
-  //       );
-  //     } catch (error) {
-  //       console.log("Appwrite service :: getCurrentUser :: error", error);
-  //       return false;
-  //     }
-  //   }
-  //   async deleteFile(fileId) {
-  //     try {
-  //       await this.bucket.deleteFile(conf.appwriteBucketId, fileId);
-  //       return true;
-  //     } catch (error) {
-  //       console.log("Appwrite service :: getCurrentUser :: error", error);
-  //       return false;
-  //     }
-  //   }
-  //   getFilePreview(fileId) {
-  //     return this.bucket.getFilePreview(conf.appwriteBucketId, fileId);
-  //   }
+  async addToCart({ productId, userId }) {
+    try {
+      return await this.databases.createDocument(
+        "6774cc89000edd33cc68",
+        "679234ce003a7d29b9fc",
+        ID.unique(),
+        {
+          //tableName: variablename
+          ProductId: productId,
+          UserId: userId,
+        }
+      );
+    } catch (error) {
+      console.error("Error adding product to cart:", error.message);
+      throw error;
+    }
+  }
+  async getCartItem(userId) {
+    try {
+      return await this.databases.listDocuments(
+        "6774cc89000edd33cc68",
+        "679234ce003a7d29b9fc",
+        [Query.equal("UserId", userId)]
+      );
+    } catch (error) {
+      console.error("Error listing brands:", error.message);
+      throw error;
+    }
+  }
+
+  async deleteCartItem(productId, userId) {
+    try {
+      const cartItem = await this.databases.listDocuments(
+        "6774cc89000edd33cc68",
+        "679234ce003a7d29b9fc",
+        [
+          Query.equal("ProductId", productId),
+          Query.equal("UserId", userId),
+          Query.limit(1),
+        ]
+      );
+      if (cartItem.documents.length > 0) {
+        await this.databases.deleteDocument(
+          "6774cc89000edd33cc68",
+          "679234ce003a7d29b9fc",
+          cartItem.documents[0].$id
+        );
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 const service = new Service();

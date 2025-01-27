@@ -109,12 +109,33 @@
   transition: background-color 0.3s ease, transform 0.3s ease;
   margin-bottom: 10px;
 }
-
+.cart-button {
+  padding: 8px 16px;
+  background-color: #d68a27;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  margin-top: 5px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  margin-bottom: 10px;
+}
+.cart-button:hover {
+  background-color: #b77620;
+}
 .product-button:hover {
   background-color: #a02125;
   transform: scale(1.05);
 }
 
+.button-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  flex-wrap: wrap;
+}
 /* Discount Badge */
 .discount-badge {
   position: absolute;

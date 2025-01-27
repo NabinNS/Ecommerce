@@ -18,6 +18,7 @@ import CategoriesSetting from "./components/admin/BrandsSetting.jsx";
 import BrandsSetting from "./components/admin/BrandsSetting.jsx";
 import AddBrands from "./components/admin/AddBrands.jsx";
 import EditBrand from "./components/admin/EditBrand.jsx";
+import Cart from "./components/cart/Cart.jsx";
 
 const router = createBrowserRouter([
   {
@@ -39,6 +40,10 @@ const router = createBrowserRouter([
       {
         path: "/register",
         element: <Register />,
+      },
+      {
+        path: "/cart",
+        element: <Cart />,
       },
     ],
   },

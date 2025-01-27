@@ -231,6 +231,11 @@ a:active {
   cursor: pointer;
   color: white;
 }
+.cart-icon {
+  cursor: pointer;
+  color: #d68a27;
+  margin-right: 20px;
+}
 
 /* Dropdown Menu */
 .dropdown {
